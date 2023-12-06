@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'mairie' => [
+            'driver' => 'session',
+            'provider' => 'mairies',
+        ],
     ],
 
     /*
@@ -65,6 +70,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'mairies' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mairie::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -96,6 +105,10 @@ return [
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'mairie' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Mairie::class,
         ],
     ],
 
