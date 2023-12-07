@@ -44,6 +44,12 @@ Route::put('regions/edit/{region}',[RegionController::class,'update']);
 // Suppression de la region
 // Route::delete('regions/{region}',[RegionController::class,'delete']);
 
+
+
+
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
