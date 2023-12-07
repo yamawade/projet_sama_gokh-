@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Exception;
+use App\Models\Region;
 use App\Models\Commune;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommuneRequest;
@@ -55,6 +56,24 @@ class CommuneController extends Controller
     public function update(UpdateCommuneRequest $request, Commune $commune)
     {
         //
+        try{
+            $region=new Region();
+            $commune->nom=$request->nom;
+            $commune->statut=$request->statut;
+            $commune->is_disponible=$request->is_disponible;
+            $commune->region_id=$request->$region->id;
+            $commune->save();
+            
+            return response()->json([
+                "status_code"=>200,
+                "status_messages"=>"La commune a ete Modifier",
+                "data"=>$commune
+            ]);
+        }catch(Exception $e){
+    
+            response()->json($e);
+    
+        }
     }
 
     /**

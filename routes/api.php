@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\CommuneController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,11 @@ Route::put('regions/edit/{region}',[RegionController::class,'update']);
 
 // Suppression de la region
 // Route::delete('regions/{region}',[RegionController::class,'delete']);
+
+
+//gestion des commune
+// Modification d'une commune 
+Route::put('communes/edit/{commune}',[CommuneController::class,'update']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
