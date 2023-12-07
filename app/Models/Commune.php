@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Commune extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nom',
+        'statut',
+        'is_disponible',
+        'region_id'
+    ];
+    		
+    public function region(){
+        return ($this->belongsTo(Region::class,'region_id'));
+    }
 }
