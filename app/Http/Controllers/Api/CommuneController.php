@@ -57,12 +57,15 @@ class CommuneController extends Controller
     {
         //
         try{
-            $region=new Region();
+            // $region=new Region();
+
             $commune->nom=$request->nom;
-            $commune->statut=$request->statut;
-            $commune->is_disponible=$request->is_disponible;
-            $commune->region_id=$request->$region->id;
-            $commune->save();
+            // $commune->statut=$request->statut;
+            // $commune->is_disponible=$request->is_disponible;
+            // $commune->region_id=$request->$region->id;
+            // dd($commune);
+            $commune->update();
+
             
             return response()->json([
                 "status_code"=>200,
@@ -82,5 +85,25 @@ class CommuneController extends Controller
     public function destroy(Commune $commune)
     {
         //
+    }
+    public function delete(Commune $commune)
+    {
+        //
+        try{
+
+            $commune->statut="desactiver";
+            $commune->save();
+            return response()->json([
+                "status_code"=>200,
+                "status_messages"=>"La region a ete Supprimer avec succes",
+                "data"=>$commune
+            ]);
+            
+        }catch(Exception $e){
+    
+            response()->json($e);
+    
+        }
+    
     }
 }

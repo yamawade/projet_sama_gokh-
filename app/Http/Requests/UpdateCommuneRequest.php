@@ -23,7 +23,7 @@ class UpdateCommuneRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+        
             'nom'=>'required'
         ];
     }
@@ -44,7 +44,7 @@ class UpdateCommuneRequest extends FormRequest
     {
         return [
 
-            'nom.required'=>'La commune a ete Modifier'
+            'nom.required'=>'La commune doit etre require'
         ];
     }
 }

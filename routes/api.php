@@ -52,6 +52,7 @@ Route::put('regions/edit/{region}',[RegionController::class,'update']);
 //gestion des commune
 // Modification d'une commune 
 Route::put('communes/edit/{commune}',[CommuneController::class,'update']);
+Route::delete('communes/{commune}',[CommuneController::class,'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
