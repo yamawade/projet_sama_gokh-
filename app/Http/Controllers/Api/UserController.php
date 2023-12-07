@@ -18,6 +18,7 @@ class UserController extends Controller
             $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
+            $user->commune_id=$request->commune_id;
             $user->password = $request->password;
             $user->save();
         
@@ -26,7 +27,7 @@ class UserController extends Controller
                 'status_message'=>'Insertion reussi',
                 'data'=>$user
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e);
         }
         
