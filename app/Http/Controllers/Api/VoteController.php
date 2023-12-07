@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Vote;
+use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
+
 
 class VoteController extends Controller
 {
@@ -13,7 +15,7 @@ class VoteController extends Controller
      */
     public function index()
     {
-        //
+      return 'listes des votes';
     }
 
     /**
@@ -29,7 +31,10 @@ class VoteController extends Controller
      */
     public function store(StoreVoteRequest $request)
     {
-        //
+        $avis = new Vote();
+        
+        $avis->reponse = 'reponse de vote';
+        $avis->save();
     }
 
     /**
