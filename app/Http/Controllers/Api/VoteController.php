@@ -34,6 +34,8 @@ class VoteController extends Controller
         $avis = new Vote();
         
         $avis->reponse = 'reponse de vote';
+        // $avis->user_id = '2';
+        // $avis->projet_id = '1';
         $avis->save();
     }
 

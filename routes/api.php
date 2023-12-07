@@ -8,8 +8,6 @@ use App\Http\Controllers\Api\VoteController;
 
 //recuperer la liste des votes
 Route::get('votes', [VoteController::class,'index']);
-
-
 //inscrire un vote
 Route::post('votes/create', [VoteController::class, 'store']);
 
