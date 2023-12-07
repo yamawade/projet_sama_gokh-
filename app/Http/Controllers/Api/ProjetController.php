@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Projet;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreProjetRequest;
 use App\Http\Requests\UpdateProjetRequest;
 
@@ -14,7 +15,6 @@ class ProjetController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -30,7 +30,51 @@ class ProjetController extends Controller
      */
     public function store(StoreProjetRequest $request)
     {
-        //
+        try {
+            $projet = new Projet();
+            $user = Auth::user();
+            // dd($user);
+            $mairie = Auth::user() ?: Auth::guard('mairie')->user();
+
+            $projet->nom = $request->nom_projet;
+            $projet->description = $request->description_projet;
+            $projet->date_projet = $request->date_projet;
+            $projet->date_limite_vote = $request->date_limite_vote;
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('images', 'public');
+                $projet->image = $path;
+            }
+            
+
+            if ($mairie) {
+
+                $projet->mairie_id = $mairie->id;
+                $projet->user_id = null;
+            } else
+            if ($user) {
+                $projet->user_id = $user->id;
+                $projet->mairie_id = null;
+            } else {
+                $projet->user_id = null;
+                $projet->mairie_id = $mairie;
+            }
+
+            if ($projet->save()) {
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Insertion reussi',
+                    'data' => $projet
+                ]);
+            } else {
+                dd('error');
+            }
+
+            // dd($user);
+
+
+        } catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     /**

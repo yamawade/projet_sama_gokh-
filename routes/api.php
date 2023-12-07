@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
+use App\Http\Controllers\Api\ProjetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,15 @@ use App\Http\Controllers\Api\MairieController;
 */
 
 //inscrire un nouveau user
-Route::post('/register',[UserController::class,'register']);
-Route::post('/login',[UserController::class,'login']);
 
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+});
 //inscrire un nouveau mairie
-Route::post('/registerMairie',[MairieController::class,'registerMairie']);
-Route::post('/loginMairie',[MairieController::class,'loginMairie']);
+Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
+Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
