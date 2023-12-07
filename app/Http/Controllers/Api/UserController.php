@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Commune;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterUser;
 use App\Http\Controllers\Controller;
@@ -10,15 +11,16 @@ use App\Http\Requests\LogUserRequest;
 
 class UserController extends Controller
 {
-    public function register(RegisterUser $request){
+    public function register(RegisterUser $request,$id){
         try {
             $user = new User();
+            $commune =Commune::findOrFail($id);
             $user->nom = $request->nom;
             $user->prenom = $request->prenom;
             $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
-            $user->commune_id=$request->commune_id;
+            $user->commune_id=$commune;
             $user->password = $request->password;
             $user->save();
         

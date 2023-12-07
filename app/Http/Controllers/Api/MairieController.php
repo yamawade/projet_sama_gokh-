@@ -36,14 +36,15 @@ class MairieController extends Controller
         //
     }
 
-    public function registerMairie(RegisterMairie $request){
+    public function registerMairie(RegisterMairie $request,$id){
         try {
             $mairie = new Mairie();
+            $commune=Commune::findOrFail($id);
             $mairie->email = $request->email;
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
-            $mairie->commune_id=1;
+            $mairie->commune_id=$commune;
             $mairie->image = $request->image;
             $mairie->save();
         

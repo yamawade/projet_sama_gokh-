@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreCommuneRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreCommuneRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,10 +21,28 @@ class StoreCommuneRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+   
     public function rules(): array
     {
         return [
-            //
+             'nom' => 'required'
+             
+
         ];
     }
+    public function failedValidation(validator $validator){
+        throw new HttpResponseException(response()->json([
+            'success'=>false,
+            'error'=>true,
+            'message'=> 'Erreur de validation',
+            'errorsList'=> $validator->errors()
+        ]));
+    }
+     public function messages()
+     {
+        return [
+            'nom.required' => 'un nom doit etre fourni',
+        ];
+     }
+
 }
