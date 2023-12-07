@@ -5,8 +5,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
-use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
+=========
+use App\Http\Controllers\Api\ProjetController;
+>>>>>>>>> Temporary merge branch 2
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +51,12 @@ Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 
 // Suppression de la region
 // Route::delete('regions/{region}',[RegionController::class,'delete']);
+
+
+//gestion des commune
+// Modification d'une commune 
+Route::put('communes/edit/{commune}',[CommuneController::class,'update']);
+Route::delete('communes/{commune}',[CommuneController::class,'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
