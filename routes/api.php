@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\CommuneController;
+use App\Http\Controllers\Api\ProjetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +21,15 @@ use App\Http\Controllers\Api\CommuneController;
 */
 
 //inscrire un nouveau user
-Route::post('/register',[UserController::class,'register']);
-Route::post('/login',[UserController::class,'login']);
 
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+});
 //inscrire un nouveau mairie
-Route::post('/registerMairie',[MairieController::class,'registerMairie']);
-Route::post('/loginMairie',[MairieController::class,'loginMairie']);
+Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
+Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 
 
 //gestion des regions
