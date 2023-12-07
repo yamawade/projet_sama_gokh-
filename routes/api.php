@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
+use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\ProjetController;
 
 /*
@@ -25,8 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
 });
 //inscrire un nouveau mairie
-Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
-Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
+Route::post('/registerMairie',[MairieController::class,'registerMairie']);
+Route::post('/loginMairie',[MairieController::class,'loginMairie']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
