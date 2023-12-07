@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Vote;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVoteRequest;
@@ -15,7 +16,19 @@ class VoteController extends Controller
      */
     public function index()
     {
-      return 'listes des votes';
+        try{
+
+            return response()->json([
+              'status_code' =>200,
+              'status_message' => 'la liste des votes a été recuperé',
+              'data'=>Vote::all()
+          ]);
+
+        } catch(Exception $e){
+            return response($e)->json($e);
+        }
+
+
     }
 
     /**
@@ -34,8 +47,7 @@ class VoteController extends Controller
         $avis = new Vote();
         
         $avis->reponse = 'reponse de vote';
-        // $avis->user_id = '2';
-        // $avis->projet_id = '1';
+         $avis->projet_id = '1';
         $avis->save();
     }
 
