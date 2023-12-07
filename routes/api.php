@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\ProjetController;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('ajout/projet', [ProjetController::class, 'store']);
+    Route::post('ajout/projet', [ProjetController::class, 'store']); 
 });
 //inscrire un nouveau mairie
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
