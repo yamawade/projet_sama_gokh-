@@ -15,7 +15,17 @@ class RegionController extends Controller
     public function index()
     {
         //
-        return 'liste des regions';
+        try{
+            return response()->json([
+                "status_code"=>200,
+                "status_messages"=>"Le poste ont ete recuperer",
+                "data"=>Region::all()
+            ]);
+        }catch(Exception $e){
+
+            response()->json($e);
+
+        }
     }
 
     /**

@@ -27,7 +27,7 @@ Route::post('/registerMairie',[MairieController::class,'registerMairie']);
 Route::post('/loginMairie',[MairieController::class,'loginMairie']);
 
 
-//gestion des region
+//gestion des regions
 
 //Recuperer la liste des posts 
 
