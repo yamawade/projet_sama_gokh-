@@ -32,26 +32,39 @@ class ProjetController extends Controller
     {
         try {
             $projet = new Projet();
-            $user = Auth::user();
-            dd($user);
-            $mairie = Auth::guard('mairie')->user();
-            $projet->nom = $request->nom_projet;
-            $projet->description = $request->description_projet;
-            $projet->date_projet = $request->date_projet;
-            $projet->date_limite_vote = $request->date_limite_vote;
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('images', 'public');
-                $projet->image = $path;
+            if($user = Auth::user()){
+                $maireTable = $user->getTable();
+                if ($maireTable === "mairies") {
+                    $maireid = $user->id;
+                    $userid = null;
+                    
+                } elseif ($maireTable === "users") {
+                    $userid = $user->id;
+                    $maireid = null;
+                    dd($userid);
+                }
+    
+                $projet->nom = $request->nom_projet;
+                $projet->description = $request->description_projet;
+                $projet->date_projet = $request->date_projet;
+                $projet->date_limite_vote = $request->date_limite_vote;
+                if ($request->hasFile('image')) {
+                    $path = $request->file('image')->store('images', 'public');
+                    $projet->image = $path;
+                }
+    
+                $projet->mairie_id = $maireid;
+                $projet->user_id = $userid;
             }
-            if ($mairie) {
-                $projet->mairie_id = $mairie->id;
-                $projet->user_id = null;
-            } else if ($user) {
-                $projet->user_id = $user->id;
-                $projet->mairie_id = null;
-            } else {
-                abort('403');
-            }
+
+            // } else if ($user) {
+            //     $projet->user_id = $user->id;
+            //     // dd('ooo');
+            //     $projet->mairie_id = 1;
+            // } else {
+
+            //     abort('403');
+            // }
 
             if ($projet->save()) {
                 return response()->json([

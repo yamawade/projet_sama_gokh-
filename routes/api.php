@@ -2,11 +2,12 @@
 
 use App\Models\Region;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
-use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\ProjetController;
+use App\Http\Controllers\Api\RegionController;
 
 
 /*
@@ -33,8 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
 //inscrire un nouveau mairie
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
 Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
-
-
 //gestion des regions
 
 //Recuperer la liste des posts 
@@ -54,9 +53,15 @@ Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 
 //gestion des commune
 // Modification d'une commune 
-Route::put('communes/edit/{commune}',[CommuneController::class,'update']);
-Route::delete('communes/{commune}',[CommuneController::class,'delete']);
+Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
+Route::delete('communes/{commune}', [CommuneController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    dd(Auth::guard('mairie')->check());
     return $request->user();
 });
+// Route::middleware('maire')->group(
+//     function () {
+//         Route::post('ajout/projet', [ProjetController::class, 'store']);
+//     }
+// );
