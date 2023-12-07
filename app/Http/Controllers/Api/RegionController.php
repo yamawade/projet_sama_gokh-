@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Exception;
 use App\Models\Region;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRegionRequest;
 use App\Http\Requests\UpdateRegionRequest;
 
@@ -14,6 +15,17 @@ class RegionController extends Controller
     public function index()
     {
         //
+        try{
+            return response()->json([
+                "status_code"=>200,
+                "status_messages"=>"Le poste ont ete recuperer",
+                "data"=>Region::all()
+            ]);
+        }catch(Exception $e){
+
+            response()->json($e);
+
+        }
     }
 
     /**
@@ -30,6 +42,22 @@ class RegionController extends Controller
     public function store(StoreRegionRequest $request)
     {
         //
+        try{
+            // dd( $Request);
+        $region=new  Region();
+        $region->nom=$request->nom;
+       
+        $region->save();
+        return response()->json([
+            "status_code"=>200,
+            "status_messages"=>"La region a ete Ajouter",
+            "data"=>$region
+        ]);
+
+        }catch(Exception $e){
+
+            response()->json($e);
+        }
     }
 
     /**
@@ -53,7 +81,21 @@ class RegionController extends Controller
      */
     public function update(UpdateRegionRequest $request, Region $region)
     {
-        //
+        
+        try{
+
+            $region->nom=$request->nom;
+            $region->save();
+            return response()->json([
+                "status_code"=>200,
+                "status_messages"=>"Le nom de la region a ete Modifier",
+                "data"=>$region
+            ]);
+        }catch(Exception $e){
+    
+            response()->json($e);
+    
+        }
     }
 
     /**
@@ -62,5 +104,27 @@ class RegionController extends Controller
     public function destroy(Region $region)
     {
         //
+    
     }
+    
+    // public function delete(Region $region)
+    // {
+    //     //
+    //     try{
+
+        
+    //         $region->delete();
+    //         return response()->json([
+    //             "status_code"=>200,
+    //             "status_messages"=>"La region a ete Supprimer avec succes",
+    //             "data"=>$region
+    //         ]);
+            
+    //     }catch(Exception $e){
+    
+    //         response()->json($e);
+    
+    //     }
+    
+    // }
 }

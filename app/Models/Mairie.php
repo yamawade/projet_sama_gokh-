@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Commune;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class Mairie extends Authenticatable
 {
@@ -21,7 +22,8 @@ class Mairie extends Authenticatable
         'email',
         'password',
         'image',
-        'matricule'
+        'matricule',
+        'commune_id'
     ];
 
     /**
@@ -43,4 +45,8 @@ class Mairie extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function commune(){
+        return ($this->belongsTo(Commune::class,'commune_id'));
+    }
 }

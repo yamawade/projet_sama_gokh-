@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreRegionRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreRegionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +25,27 @@ class StoreRegionRequest extends FormRequest
     {
         return [
             //
+            'nom'=>'required'
+        ];
+    }
+
+    public function failedValidation(Validator $validator): array
+    {
+        throw new HttpResponseException(response()->json([
+
+            'success'=>false,
+            'error'=>true,
+            'message'=>'Erreure de validation',
+            'errorsListe'=> $validator->errors(),
+        ]
+
+        )); 
+    }
+    public function messages()
+    {
+        return [
+
+            'nom.required'=>'Un nom de region  doit etre fournie'
         ];
     }
 }
