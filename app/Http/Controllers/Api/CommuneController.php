@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Commune;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommuneRequest;
 use App\Http\Requests\UpdateCommuneRequest;
 
