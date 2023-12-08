@@ -41,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('deconnexionMairie',[MairieController::class,'logout']);
 });
 
+//Verification email
+Route::post('verifMail',[UserController::class,'verifMail']);
+Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 //gestion des regions
 
 //Recuperer la liste des posts 
