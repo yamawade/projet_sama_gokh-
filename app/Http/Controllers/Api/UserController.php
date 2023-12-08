@@ -9,6 +9,7 @@ use App\Http\Requests\RegisterUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LogUserRequest;
 use App\Notifications\UserRegisterMail;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -55,5 +56,44 @@ class UserController extends Controller
                 'status_message' => 'Information invalide'
             ]);
         }
+    }
+    public function logout(Request $request)
+    {
+       $user=auth()->user();
+       if($user->tokens()->delete()){
+        Session::invalidate();
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Utilisateur déconnecté'
+        ]);
+       }else{
+
+       }
+    }
+
+    public function verifMail(Request $request){
+        $user=User::where('email',$request->email)->first();
+       // dd($user);
+        if($user){
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Utilisateur trouvé',
+                'user' => $user,
+            ]);
+        }
+
+    }
+    public function resetPassword(Request $request,User $user){
+        $user->password=$request->password;
+        $user->save();
+       //dd($user);
+        if($user){
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Votre mot de passe a été modifier',
+                'user' => $user,
+            ]);
+        }
+
     }
 }

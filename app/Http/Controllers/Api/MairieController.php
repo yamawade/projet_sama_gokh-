@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Mairie;
 use App\Models\Commune;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginMairie;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterMairie;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StoreMairieRequest;
 use App\Http\Requests\UpdateMairieRequest;
 
@@ -83,6 +85,20 @@ class MairieController extends Controller
                 'status_message' => 'Information invalide'
             ]);
         }
+    }
+    public function logout(Request $request)
+    {
+       $user=auth()->user();
+    //    dd($user);
+       if($user->tokens()->delete()){
+        Session::invalidate();
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Mairie déconnecté'
+        ]);
+       }else{
+
+       }
     }
     /**
      * Display the specified resource.

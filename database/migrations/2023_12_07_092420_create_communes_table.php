@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('communes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom')->unique();
             $table->string('commune_desc');
             $table->enum('statut',['activer','desactiver'])->default('activer');
             $table->enum('is_disponible',['disponible','indisponible'])->default('disponible');
