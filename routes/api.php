@@ -3,6 +3,7 @@
 use App\Models\Region;
 use App\Models\Commune;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoteController;
@@ -25,19 +26,25 @@ Route::post('communes/create',[CommuneController::class,'store']);
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+    Route::post('details/projet/', [ProjetController::class, 'details']);
+    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+});
 //inscrire un nouveau mairie
 Route::post('/registerMairie',[MairieController::class,'registerMairie']);
 Route::post('/loginMairie',[MairieController::class,'loginMairie']);
-
-
 //gestion des regions
 
 //Recuperer la liste des posts 
-Route::get('regions',[RegionController::class,'index']);
+Route::get('regions', [RegionController::class, 'index']);
 // Ajout d'une region |POST|PUT|PATCH
-Route::post('regions/create',[RegionController::class,'store']);
+Route::post('regions/create', [RegionController::class, 'store']);
 // Modification d'une region 
-Route::put('regions/edit/{region}',[RegionController::class,'update']);
+Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 
 // Suppression de la region
 // Route::delete('regions/{region}',[RegionController::class,'delete']);
@@ -52,6 +59,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+
+//gestion des commune
+// Modification d'une commune 
+Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
+Route::delete('communes/{commune}', [CommuneController::class, 'delete']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    dd(Auth::guard('mairie')->check());
     return $request->user();
 });
+// Route::middleware('maire')->group(
+//     function () {
+//         Route::post('ajout/projet', [ProjetController::class, 'store']);
+//     }
+// );

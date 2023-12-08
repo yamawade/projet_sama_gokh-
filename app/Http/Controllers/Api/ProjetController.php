@@ -32,32 +32,39 @@ class ProjetController extends Controller
     {
         try {
             $projet = new Projet();
-            $user = Auth::user();
-            // dd($user);
-            $mairie = Auth::user() ?: Auth::guard('mairie')->user();
-
-            $projet->nom = $request->nom_projet;
-            $projet->description = $request->description_projet;
-            $projet->date_projet = $request->date_projet;
-            $projet->date_limite_vote = $request->date_limite_vote;
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('images', 'public');
-                $projet->image = $path;
+            if($user = Auth::user()){
+                $maireTable = $user->getTable();
+                if ($maireTable === "mairies") {
+                    $maireid = $user->id;
+                    $userid = null;
+                    
+                } elseif ($maireTable === "users") {
+                    $userid = $user->id;
+                    $maireid = null;
+                    // dd($userid);
+                }
+    
+                $projet->nom = $request->nom_projet;
+                $projet->description = $request->description_projet;
+                $projet->date_projet = $request->date_projet;
+                $projet->date_limite_vote = $request->date_limite_vote;
+                if ($request->hasFile('image')) {
+                    $path = $request->file('image')->store('images', 'public');
+                    $projet->image = $path;
+                }
+    
+                $projet->mairie_id = $maireid;
+                $projet->user_id = $userid;
             }
-            
 
-            if ($mairie) {
+            // } else if ($user) {
+            //     $projet->user_id = $user->id;
+            //     // dd('ooo');
+            //     $projet->mairie_id = 1;
+            // } else {
 
-                $projet->mairie_id = $mairie->id;
-                $projet->user_id = null;
-            } else
-            if ($user) {
-                $projet->user_id = $user->id;
-                $projet->mairie_id = null;
-            } else {
-                $projet->user_id = null;
-                $projet->mairie_id = $mairie;
-            }
+            //     abort('403');
+            // }
 
             if ($projet->save()) {
                 return response()->json([
@@ -88,9 +95,59 @@ class ProjetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Projet $projet)
+    public function edit(Projet $projet, UpdateProjetRequest $request)
     {
-        //
+        // dd('ok');
+        try {
+            dd('leye');
+            if ($projet->user_id == auth()->user()->id) {
+                $projet->nom = $request->nom_projet;
+                $projet->description = $request->description_projet;
+                $projet->date_projet = $request->date_projet;
+                $projet->date_limite_vote = $request->date_limite_vote;
+                if ($request->hasFile('image')) {
+                    $path = $request->file('image')->store('images', 'public');
+                    $projet->image = $path;
+                }
+                if ($projet->save()) {
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'Projet successfully update',
+                        'data' => $projet
+                    ]);
+                } else {
+                    dd('error');
+                }
+            }
+            if ($projet->mairie_id == Auth::guard('mairie')->user()->id) {
+                $projet->nom = $request->nom_projet;
+                $projet->description = $request->description_projet;
+                $projet->date_projet = $request->date_projet;
+                $projet->date_limite_vote = $request->date_limite_vote;
+                if ($request->hasFile('image')) {
+                    $path = $request->file('image')->store('images', 'public');
+                    $projet->image = $path;
+                }
+                if ($projet->save()) {
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'Projet successfully update',
+                        'data' => $projet
+                    ]);
+                } else {
+                    dd('error');
+                }
+            }
+
+
+
+
+            // dd($user);
+
+
+        } catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     /**
@@ -106,6 +163,11 @@ class ProjetController extends Controller
      */
     public function destroy(Projet $projet)
     {
-        //
+        if ($projet->user_id == auth()->user()->id) {
+            $projet->status = 'deleted';
+        }
+        if ($projet->mairie_id == Auth::guard('mairie')->user()->id) {
+            $projet->status = 'deleted';
+        }
     }
 }

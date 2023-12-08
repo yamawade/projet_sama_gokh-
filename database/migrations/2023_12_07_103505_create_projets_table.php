@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('date_projet');
             $table->date('date_limite_vote');
             $table->string('image');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->foreignIdFor(Mairie::class)->constrained()->onDelete('cascade')->onUpdate('cascade')->nullable();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(Mairie::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
