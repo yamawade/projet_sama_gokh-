@@ -36,6 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('votes', [VoteController::class,'index']);
     //inscrire un vote
     Route::post('votes/create/{projet}', [VoteController::class, 'store']);
+    //Deconnexion Utilisateur
+    Route::post('deconnexion',[UserController::class,'logout']);
+    Route::post('deconnexionMairie',[MairieController::class,'logout']);
 });
 
 //gestion des regions

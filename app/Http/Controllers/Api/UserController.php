@@ -9,6 +9,7 @@ use App\Http\Requests\RegisterUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LogUserRequest;
 use App\Notifications\UserRegisterMail;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -58,11 +59,15 @@ class UserController extends Controller
     }
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
-
+       $user=auth()->user();
+       if($user->tokens()->delete()){
+        Session::invalidate();
         return response()->json([
             'status_code' => 200,
             'status_message' => 'Utilisateur déconnecté'
         ]);
+       }else{
+
+       }
     }
 }

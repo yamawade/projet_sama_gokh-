@@ -9,6 +9,7 @@ use App\Http\Requests\LoginMairie;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterMairie;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StoreMairieRequest;
 use App\Http\Requests\UpdateMairieRequest;
 
@@ -85,15 +86,20 @@ class MairieController extends Controller
             ]);
         }
     }
-    public function logoutMairie(Request $request)
-{
-    auth()->guard('mairie')->user()->tokens()->delete();
+    public function logout(Request $request)
+    {
+       $user=auth()->user();
+    //    dd($user);
+       if($user->tokens()->delete()){
+        Session::invalidate();
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Mairie déconnecté'
+        ]);
+       }else{
 
-    return response()->json([
-        'status_code' => 200,
-        'status_message' => 'Utilisateur déconnecté'
-    ]);
-}
+       }
+    }
     /**
      * Display the specified resource.
      */
