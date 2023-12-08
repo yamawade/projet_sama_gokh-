@@ -11,10 +11,7 @@ use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\CommentaireController;
 
-// //recuperer la liste des votes
-// Route::get('votes', [VoteController::class,'index']);
-// //inscrire un vote
-// Route::post('votes/create', [VoteController::class, 'store']);
+
 //listages des communes
 Route::post('communes',[CommuneController::class,'index']);
 //ajout communes

@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-<<<<<<< HEAD
-=======
 
->>>>>>> fcd7de283f6c73cc2bb7c9adca06eb73aed83313
 use Exception;
 use App\Models\Region;
 use App\Models\Mairie;
