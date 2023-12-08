@@ -32,6 +32,7 @@ class ProjetController extends Controller
     {
         try {
             $projet = new Projet();
+<<<<<<< HEAD
             $user = Auth::user();
             //dd($user);
             $mairie = Auth::guard('mairie')->user();
@@ -55,17 +56,19 @@ class ProjetController extends Controller
                 abort('403');
             }
             if($user = Auth::user()){
+=======
+            if ($user = Auth::user()) {
+>>>>>>> fcd7de283f6c73cc2bb7c9adca06eb73aed83313
                 $maireTable = $user->getTable();
                 if ($maireTable === "mairies") {
                     $maireid = $user->id;
                     $userid = null;
-                    
                 } elseif ($maireTable === "users") {
                     $userid = $user->id;
                     $maireid = null;
                     //dd($userid);
                 }
-    
+
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
@@ -74,7 +77,7 @@ class ProjetController extends Controller
                     $path = $request->file('image')->store('images', 'public');
                     $projet->image = $path;
                 }
-    
+
                 $projet->mairie_id = $maireid;
                 $projet->user_id = $userid;
             }
@@ -111,7 +114,15 @@ class ProjetController extends Controller
      */
     public function show(Projet $projet)
     {
-        //
+        try {
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Details Projet',
+                'data' => $projet
+            ]);
+        } catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     /**
