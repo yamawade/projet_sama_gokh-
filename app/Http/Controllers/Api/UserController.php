@@ -22,7 +22,7 @@ class UserController extends Controller
             $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
-            $user->commune_id = 1;
+            $user->commune_id = 2;
             $user->password = $request->password;
             if($user->save()){
                 $user->notify(new UserRegisterMail());
@@ -66,8 +66,6 @@ class UserController extends Controller
             'status_code' => 200,
             'status_message' => 'Utilisateur déconnecté'
         ]);
-       }else{
-
        }
     }
 
@@ -95,5 +93,21 @@ class UserController extends Controller
             ]);
         }
 
+    }
+
+    public function desactiverCompte(Request $request,User $user){
+        $user=auth()->user();
+        if($user->etat_compte=='activer'){
+            $user->etat_compte='desactiver';
+            $user->save();
+            if($user->tokens()->delete()){
+                Session::invalidate();
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Votre compte a ete supprimer'
+                ]);
+            }
+        }
+        
     }
 }
