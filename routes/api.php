@@ -18,6 +18,12 @@ use App\Models\Newsletter;
 Route::get('votes', [VoteController::class,'index']);
 //inscrire un vote
 Route::post('votes/create', [VoteController::class, 'store']);
+use App\Http\Controllers\Api\CommentaireController;
+
+// //recuperer la liste des votes
+// Route::get('votes', [VoteController::class,'index']);
+// //inscrire un vote
+// Route::post('votes/create', [VoteController::class, 'store']);
 //listages des communes
 Route::post('communes',[CommuneController::class,'index']);
 //ajout communes
@@ -31,17 +37,27 @@ Route::post('communes/create',[CommuneController::class,'store']);
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 
+//gestion des regions
+
+//Recuperer la liste des posts 
+Route::get('regions',[RegionController::class,'index']);
+// Ajout d'une region |POST|PUT|PATCH
+Route::post('regions/create',[RegionController::class,'store']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('newsletter/mail', [NewsletterController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
-    Route::post('details/projet/', [ProjetController::class, 'show']);
+    Route::post('details/projet/{projet}', [ProjetController::class, 'show']);
     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
     Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
+    //recuperer la liste des votes
+    Route::get('votes', [VoteController::class,'index']);
+    //inscrire un vote
+    Route::post('votes/create/{projet}', [VoteController::class, 'store']);
 });
 //inscrire un nouveau mairie
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
