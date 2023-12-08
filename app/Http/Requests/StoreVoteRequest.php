@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Http;
 
 class StoreVoteRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreVoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,26 @@ class StoreVoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'reponse' => 'required'
         ];
     }
+     
+    public function failedValidation(validator $validator){
+
+         throw new HttpResponseException(response()->json([
+            'success' => false,
+            'error' => true,
+            'message' => 'Erreur de validation',
+            'errorsList' => $validator->errors()
+         ]));
+
+    }
+
+    public function messages() {
+        return [
+            'reponse.required' => 'une reponse doit etre fournie: choisir oui ou non'
+        ];
+
+    }
+
 }
