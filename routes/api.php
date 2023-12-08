@@ -34,7 +34,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('newsletter/mail', [NewsletterController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
-    Route::post('details/projet/', [ProjetController::class, 'show']);
+    Route::post('details/projet/{projet}', [ProjetController::class, 'show']);
     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
