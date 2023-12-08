@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Mairie;
 use App\Http\Requests\LoginMairie;
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class MairieController extends Controller
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
-            $mairie->commune_id=1;
+            $mairie->commune_id=4;
             $mairie->image = $request->image;
             $mairie->save();
         

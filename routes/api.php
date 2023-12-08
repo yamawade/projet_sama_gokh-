@@ -1,27 +1,25 @@
 <?php
 
-use App\Http\Controllers\Api\CommuneController;
 use App\Models\Region;
+use App\Models\Commune;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\MairieController;
-use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\VoteController;
-use App\Models\Commune;
+use App\Http\Controllers\Api\MairieController;
+use App\Http\Controllers\Api\ProjetController;
+use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\CommuneController;
 
 //recuperer la liste des votes
 Route::get('votes', [VoteController::class,'index']);
 //inscrire un vote
 Route::post('votes/create', [VoteController::class, 'store']);
+
 //listages des communes
 Route::post('communes',[CommuneController::class,'index']);
 //ajout communes
 Route::post('communes/create',[CommuneController::class,'store']);
-
-
-
-
 
 //inscrire un nouveau user
 Route::post('/register',[UserController::class,'register']);
@@ -45,8 +43,12 @@ Route::put('regions/edit/{region}',[RegionController::class,'update']);
 // Route::delete('regions/{region}',[RegionController::class,'delete']);
 
 
-
-
+    //route pour ajout/suppression/modifier projet
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+});
 
 
 
