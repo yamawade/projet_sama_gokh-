@@ -10,7 +10,9 @@ use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\VoteController;
+use App\Http\Controllers\NewsletterController;
 use App\Models\Commune;
+use App\Models\Newsletter;
 
 //recuperer la liste des votes
 Route::get('votes', [VoteController::class,'index']);
@@ -31,9 +33,10 @@ Route::post('/login',[UserController::class,'login']);
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('newsletter/mail', [NewsletterController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
-    Route::post('details/projet/', [ProjetController::class, 'details']);
+    Route::post('details/projet/', [ProjetController::class, 'show']);
     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
 });

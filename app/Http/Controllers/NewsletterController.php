@@ -29,7 +29,20 @@ class NewsletterController extends Controller
      */
     public function store(StoreNewsletterRequest $request)
     {
-        //
+        try {
+            $newsletter = new Newsletter();
+            $newsletter->email = $request->email;
+            $newsletter->save();
+
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Newsletter enregistrer avec success',
+                'data' => $newsletter
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json($e);
+        }
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreNewsletterRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreNewsletterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,27 @@ class StoreNewsletterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'required|email|unique:newsletter,email',
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'status_code' => 422,
+            'error' => true,
+            'message' => 'Erreur de validation',
+            'errorsList' => $validator->errors()
+        ]));
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Un email est requis',
+            'email.email' => 'Un email valide est requis',
+            'email.unique' => 'Email existe deja',
         ];
     }
 }
