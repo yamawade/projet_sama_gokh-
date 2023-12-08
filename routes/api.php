@@ -26,13 +26,9 @@ Route::post('communes',[CommuneController::class,'index']);
 //ajout communes
 Route::post('communes/create',[CommuneController::class,'store']);
 
-
-
 //inscrire un nouveau user
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
-
-
 
 //gestion des regions
 
@@ -45,9 +41,12 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('newsletter/mail', [NewsletterController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
-    Route::post('details/projet/', [ProjetController::class, 'details']);
+    Route::post('details/projet/{projet}', [ProjetController::class, 'show']);
     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+    Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
+    Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
+    Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
 });
 //inscrire un nouveau mairie
 Route::post('/registerMairie',[MairieController::class,'registerMairie']);
