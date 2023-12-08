@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\User;
 use App\Models\Vote;
 use App\Models\Projet;
+use App\Notifications\VoteMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreVoteRequest;
@@ -54,7 +56,10 @@ class VoteController extends Controller
             $avis->reponse = $request->reponse;
             $avis->projet_id = $projet->id;
             $avis->user_id = $user->id;
-            $avis->save();
+            if($avis->save()){
+                $userMail=User::find($user->id);
+                $userMail->notify(new VoteMail());
+            }
 
             return response()->json([
                 'status_code'=>200,

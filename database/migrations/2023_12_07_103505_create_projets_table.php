@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('date_projet');
             $table->date('date_limite_vote');
             $table->string('image');
+            $table->enum('etat_projet',['en attente','en cours','terminer'])->default('en attente');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignIdFor(Mairie::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
