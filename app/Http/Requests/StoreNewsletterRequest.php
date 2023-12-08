@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreCommentaireRequest extends FormRequest
+class StoreNewsletterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +24,27 @@ class StoreCommentaireRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required'
-             
-
+            'email' => 'required|email|unique:newsletter,email',
         ];
     }
-    public function failedValidation(Validator $validator){
+
+    public function failedValidation(Validator $validator)
+    {
         throw new HttpResponseException(response()->json([
-            'success'=>false,
-            'error'=>true,
-            'message'=> 'Erreur de validation',
-            'errorsList'=> $validator->errors()
+            'success' => false,
+            'status_code' => 422,
+            'error' => true,
+            'message' => 'Erreur de validation',
+            'errorsList' => $validator->errors()
         ]));
     }
-     public function messages()
-     {
+
+    public function messages()
+    {
         return [
-            'description.required' => 'un commentaire doit etre fourni',
+            'email.required' => 'Un email est requis',
+            'email.email' => 'Un email valide est requis',
+            'email.unique' => 'Email existe deja',
         ];
-     }
+    }
 }

@@ -32,18 +32,39 @@ class ProjetController extends Controller
     {
         try {
             $projet = new Projet();
+            $user = Auth::user();
+            //dd($user);
+            $mairie = Auth::guard('mairie')->user();
+            //$mairie = auth()->guard('mairie')->user();
+            //dd($mairie);
+            $projet->nom = $request->nom_projet;
+            $projet->description = $request->description_projet;
+            $projet->date_projet = $request->date_projet;
+            $projet->date_limite_vote = $request->date_limite_vote;
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('images', 'public');
+                $projet->image = $path;
+            }
+            if ($mairie) {
+                $projet->mairie_id = $mairie->id;
+                $projet->user_id = null;
+            } else if ($user) {
+                $projet->user_id = $user->id;
+                $projet->mairie_id = null;
+            } else {
+                abort('403');
+            }
             if($user = Auth::user()){
                 $maireTable = $user->getTable();
                 if ($maireTable === "mairies") {
                     $maireid = $user->id;
                     $userid = null;
-                    
                 } elseif ($maireTable === "users") {
                     $userid = $user->id;
                     $maireid = null;
-                    // dd($userid);
+                    dd($userid);
                 }
-    
+
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
@@ -52,7 +73,7 @@ class ProjetController extends Controller
                     $path = $request->file('image')->store('images', 'public');
                     $projet->image = $path;
                 }
-    
+
                 $projet->mairie_id = $maireid;
                 $projet->user_id = $userid;
             }
@@ -89,7 +110,15 @@ class ProjetController extends Controller
      */
     public function show(Projet $projet)
     {
-        //
+        try {
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Details Projet',
+                'data' => $projet
+            ]);
+        } catch (\Exception $e) {
+            return response()->json($e);
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\Mairie;
+use App\Models\Commune;
 use App\Http\Requests\LoginMairie;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,7 @@ class MairieController extends Controller
     {
         try {
             $mairie = new Mairie();
+           // $commune=Commune::findOrFail($id);
             $mairie->email = $request->email;
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
