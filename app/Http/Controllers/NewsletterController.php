@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Newsletter;
 use App\Http\Requests\StoreNewsletterRequest;
 use App\Http\Requests\UpdateNewsletterRequest;
+use App\Notifications\MailNewsletter;
 
 class NewsletterController extends Controller
 {
@@ -31,14 +32,18 @@ class NewsletterController extends Controller
     {
         try {
             $newsletter = new Newsletter();
+            dd($newsletter);
             $newsletter->email = $request->email;
-            $newsletter->save();
-
-            return response()->json([
-                'status_code' => 200,
-                'status_message' => 'Newsletter enregistrer avec success',
-                'data' => $newsletter
-            ]);
+            if ($newsletter->save()) {
+                $newsletter->notify(new MailNewsletter());
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Newsletter enregistrer avec success',
+                    'data' => $newsletter
+                ]);
+            } else {
+                return abort('403');
+            }
         } catch (\Exception $e) {
 
             return response()->json($e);

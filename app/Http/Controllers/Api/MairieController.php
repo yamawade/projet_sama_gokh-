@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Mairie;
 use App\Models\Commune;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginMairie;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,15 @@ class MairieController extends Controller
             ]);
         }
     }
+    public function logoutMairie(Request $request)
+{
+    auth()->guard('mairie')->user()->tokens()->delete();
+
+    return response()->json([
+        'status_code' => 200,
+        'status_message' => 'Utilisateur déconnecté'
+    ]);
+}
     /**
      * Display the specified resource.
      */
