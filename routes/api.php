@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CommuneController;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -8,20 +9,25 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\VoteController;
+use App\Models\Commune;
+
+//recuperer la liste des votes
+Route::get('votes', [VoteController::class,'index']);
+//inscrire un vote
+Route::post('votes/create', [VoteController::class, 'store']);
+//listages des communes
+Route::post('communes',[CommuneController::class,'index']);
+//ajout communes
+Route::post('communes/create',[CommuneController::class,'store']);
 
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+
+
 
 //inscrire un nouveau user
+Route::post('/register',[UserController::class,'register']);
+Route::post('/login',[UserController::class,'login']);
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);

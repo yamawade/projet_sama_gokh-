@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\Region;
+use Exception;
+use App\Models\Mairie;
 use App\Models\Commune;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommuneRequest;
@@ -15,7 +17,18 @@ class CommuneController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            return response()->json([
+              'status_code' =>200,
+              'status_message' => 'la liste des communes a été recuperé',
+              'data'=> Commune::all()
+          ]);
+
+        } catch(Exception $e){
+            return response($e)->json($e);
+        }
+
     }
 
     /**
@@ -31,7 +44,27 @@ class CommuneController extends Controller
      */
     public function store(StoreCommuneRequest $request)
     {
-        //
+          
+        try {
+            $communes = new Commune();
+            
+            $communes->nom = $request->nom;
+            $communes->region_id = $request->region_id;
+        
+    
+            $communes->save();
+    
+            return response()->json([
+                'status_code' =>200,
+                'status_message' => 'la commune a été ajouté',
+                'data'=>$communes
+            ]);
+    
+           } catch (Exception $e) {
+             
+             return response()->json($e);
+           }
+
     }
 
     /**
