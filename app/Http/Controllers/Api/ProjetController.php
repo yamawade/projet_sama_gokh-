@@ -36,7 +36,7 @@ class ProjetController extends Controller
             //dd($user);
             $mairie = Auth::guard('mairie')->user();
             //$mairie = auth()->guard('mairie')->user();
-            dd($mairie);
+            //dd($mairie);
             $projet->nom = $request->nom_projet;
             $projet->description = $request->description_projet;
             $projet->date_projet = $request->date_projet;
@@ -63,7 +63,7 @@ class ProjetController extends Controller
                 } elseif ($maireTable === "users") {
                     $userid = $user->id;
                     $maireid = null;
-                    dd($userid);
+                    //dd($userid);
                 }
     
                 $projet->nom = $request->nom_projet;
