@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\VoteController;
 use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
-use App\Models\Commune;
 
 // //recuperer la liste des votes
 // Route::get('votes', [VoteController::class,'index']);
@@ -20,13 +19,9 @@ Route::post('communes',[CommuneController::class,'index']);
 //ajout communes
 Route::post('communes/create',[CommuneController::class,'store']);
 
-
-
 //inscrire un nouveau user
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
-
-
 
 //gestion des regions
 
@@ -42,9 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('details/projet/', [ProjetController::class, 'show']);
     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
-    Route::post('details/projet/', [ProjetController::class, 'details']);
-    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
-    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+    Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
+    Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
+    Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
 });
 //inscrire un nouveau mairie
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
