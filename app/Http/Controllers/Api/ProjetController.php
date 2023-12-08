@@ -32,7 +32,6 @@ class ProjetController extends Controller
     {
         try {
             $projet = new Projet();
-<<<<<<< HEAD
             $user = Auth::user();
             //dd($user);
             $mairie = Auth::guard('mairie')->user();
@@ -56,9 +55,6 @@ class ProjetController extends Controller
                 abort('403');
             }
             if($user = Auth::user()){
-=======
-            if ($user = Auth::user()) {
->>>>>>> fcd7de283f6c73cc2bb7c9adca06eb73aed83313
                 $maireTable = $user->getTable();
                 if ($maireTable === "mairies") {
                     $maireid = $user->id;
