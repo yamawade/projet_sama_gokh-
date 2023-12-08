@@ -41,6 +41,9 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
+    Route::post('details/projet/', [ProjetController::class, 'show']);
+    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
     Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
