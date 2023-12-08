@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Region;
+use App\Models\Commune;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('votes/create/{projet}', [VoteController::class, 'store']);
 });
 //inscrire un nouveau mairie
+Route::post('/registerMairie',[MairieController::class,'registerMairie']);
+Route::post('/loginMairie',[MairieController::class,'loginMairie']);
+//gestion des regions
+
+//Recuperer la liste des posts 
+Route::get('regions', [RegionController::class, 'index']);
+// Ajout d'une region |POST|PUT|PATCH
+Route::post('regions/create', [RegionController::class, 'store']);
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
 Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 
@@ -66,6 +75,29 @@ Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 
 // Suppression de la region
 // Route::delete('regions/{region}',[RegionController::class,'delete']);
+
+
+    //route pour ajout/suppression/modifier projet
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+    Route::post('details/projet/', [ProjetController::class, 'show']);
+
+});
+
+
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::post('ajout/projet', [ProjetController::class, 'store']);
+//     Route::post('details/projet/', [ProjetController::class, 'show']);
+//     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+//     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+//     Route::post('details/projet/', [ProjetController::class, 'details']);
+//     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+//     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+// });  
+
+
 
 
 //gestion des commune

@@ -62,7 +62,7 @@ class ProjetController extends Controller
                 } elseif ($maireTable === "users") {
                     $userid = $user->id;
                     $maireid = null;
-                    //dd($userid);
+                    dd($userid);
                 }
 
                 $projet->nom = $request->nom_projet;
@@ -126,7 +126,7 @@ class ProjetController extends Controller
      */
     public function edit(Projet $projet, UpdateProjetRequest $request)
     {
-        dd('ok');
+        // dd('ok');
         try {
             dd('leye');
             if ($projet->user_id == auth()->user()->id) {
