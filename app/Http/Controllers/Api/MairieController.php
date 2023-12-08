@@ -37,7 +37,8 @@ class MairieController extends Controller
         //
     }
 
-    public function registerMairie(RegisterMairie $request){
+    public function registerMairie(RegisterMairie $request)
+    {
         try {
             $mairie = new Mairie();
            // $commune=Commune::findOrFail($id);
@@ -45,44 +46,43 @@ class MairieController extends Controller
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
-            $mairie->commune_id=1;
+            $mairie->commune_id = 1;
             $mairie->image = $request->image;
             $mairie->save();
-        
+
             return response()->json([
-                'status_code'=>200,
-                'status_message'=>'Insertion reussi',
-                'data'=>$mairie
+                'status_code' => 200,
+                'status_message' => 'Insertion reussi',
+                'data' => $mairie
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e);
         }
-        
-       
     }
 
-    public function loginMairie(LoginMairie $request){
-        $mairie=Auth::guard('mairie')->attempt(['login'=>$request->login,'password'=>$request->password]);
-        //dd($mairie);
-        if($mairie){
-            $mairie=auth()->guard('mairie')->user();
-            $token= $mairie->createToken('MA_CLE_SECRET_MAIRIE')->plainTextToken;
+    public function loginMairie(LoginMairie $request)
+    {
+        $mairie = Auth::guard('mairie')->attempt(['login' => $request->login, 'password' => $request->password]);
 
+        if ($mairie) {
+            $mairie = auth()->guard('mairie')->user();
+            // dd($mairie);
+            $token = $mairie->createToken('MA_CLE_SECRET_MAIRIE')->plainTextToken;
+
+            // dd(Auth::guard('mairie')->login($mairie));
             return response()->json([
-                'status_code'=>200,
-                'status_message'=>'Utilisateur Connecté',
-                'user'=>$mairie,
-                'token'=>$token
+                'status_code' => 200,
+                'status_message' => 'Utilisateur Connecté',
+                'user' => $mairie,
+                'token' => $token
             ]);
-
-        }else{
+        } else {
 
             return response()->json([
-                'status_code'=>403,
-                'status_message'=>'Information invalide'
+                'status_code' => 403,
+                'status_message' => 'Information invalide'
             ]);
         }
-
     }
     /**
      * Display the specified resource.
