@@ -39,6 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
     //Deconnexion Utilisateur
     Route::post('deconnexion',[UserController::class,'logout']);
     Route::post('deconnexionMairie',[MairieController::class,'logout']);
+
+    //Desactiver compte utilisateur
+    Route::post('desactiverCompte/{user}',[UserController::class,'desactiverCompte']);
 });
 
 //Verification email
