@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
     Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
+    //recuperer la liste des votes
+    Route::get('votes', [VoteController::class,'index']);
+    //inscrire un vote
+    Route::post('votes/create/{projet}', [VoteController::class, 'store']);
 });
 //inscrire un nouveau mairie
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
