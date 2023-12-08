@@ -12,8 +12,17 @@ use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\VoteController;
 use App\Http\Controllers\NewsletterController;
 use App\Models\Commune;
-use App\Models\Newsletter;
-use App\Http\Controllers\Api\CommentaireController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
 
 //inscrire un nouveau user
 Route::post('/register', [UserController::class, 'register']);
@@ -44,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
 //Verification email
 Route::post('verifMail',[UserController::class,'verifMail']);
 Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
+
 //gestion des regions
 
 //Recuperer la liste des posts 
