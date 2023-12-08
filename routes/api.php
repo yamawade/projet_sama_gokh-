@@ -69,7 +69,7 @@ Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
 Route::delete('communes/{commune}', [CommuneController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    dd(Auth::guard('mairie')->check());
+    // dd(Auth::guard('mairie')->check());
     return $request->user();
 });
 // Route::middleware('maire')->group(

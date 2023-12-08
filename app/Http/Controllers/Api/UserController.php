@@ -53,4 +53,13 @@ class UserController extends Controller
             ]);
         }
     }
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Utilisateur déconnecté'
+        ]);
+    }
 }
