@@ -11,16 +11,15 @@ use App\Http\Requests\LogUserRequest;
 
 class UserController extends Controller
 {
-    public function register(RegisterUser $request,$id){
+    public function register(RegisterUser $request){
         try {
             $user = new User();
-            $commune =Commune::findOrFail($id);
             $user->nom = $request->nom;
             $user->prenom = $request->prenom;
             $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
-            $user->commune_id=$commune;
+            $user->commune_id=1;
             $user->password = $request->password;
             $user->save();
         

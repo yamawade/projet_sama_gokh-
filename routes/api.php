@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\CommuneController;
 use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\MairieController;
-use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\VoteController;
+use App\Http\Controllers\Api\MairieController;
+use App\Http\Controllers\Api\ProjetController;
+use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\CommuneController;
 
 // //recuperer la liste des votes
 // Route::get('votes', [VoteController::class,'index']);
@@ -19,7 +20,11 @@ Route::post('communes',[CommuneController::class,'index']);
 Route::post('communes/create',[CommuneController::class,'store']);
 
 
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+});
 
 
 //inscrire un nouveau user

@@ -33,9 +33,10 @@ class ProjetController extends Controller
         try {
             $projet = new Projet();
             $user = Auth::user();
-            // dd($user);
-            $mairie = Auth::user() ?: Auth::guard('mairie')->user();
-
+            //dd($user);
+            $mairie = Auth::guard('mairie')->user();
+            //$mairie = auth()->guard('mairie')->user();
+            dd($mairie);
             $projet->nom = $request->nom_projet;
             $projet->description = $request->description_projet;
             $projet->date_projet = $request->date_projet;
@@ -44,19 +45,14 @@ class ProjetController extends Controller
                 $path = $request->file('image')->store('images', 'public');
                 $projet->image = $path;
             }
-            
-
             if ($mairie) {
-
                 $projet->mairie_id = $mairie->id;
                 $projet->user_id = null;
-            } else
-            if ($user) {
+            } else if ($user) {
                 $projet->user_id = $user->id;
                 $projet->mairie_id = null;
             } else {
-                $projet->user_id = null;
-                $projet->mairie_id = $mairie;
+                abort('403');
             }
 
             if ($projet->save()) {
