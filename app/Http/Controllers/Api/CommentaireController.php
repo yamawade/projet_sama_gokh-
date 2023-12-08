@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Projet;
 use App\Models\Commentaire;
 use App\Http\Controllers\Controller;

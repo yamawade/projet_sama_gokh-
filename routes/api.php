@@ -11,11 +11,12 @@ use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\CommuneController;
+use App\Http\Controllers\Api\CommentaireController;
 
 //recuperer la liste des votes
 Route::get('votes', [VoteController::class,'index']);
 //inscrire un vote
-Route::post('votes/create', [VoteController::class, 'store']);
+Route::post('votes/create', [VoteController::class, 'store']); 
 
 // //recuperer la liste des votes
 // Route::get('votes', [VoteController::class,'index']);
@@ -29,6 +30,7 @@ Route::post('communes/create',[CommuneController::class,'store']);
 //inscrire un nouveau user
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
+Route::put('/update/user/{user}', [UserController::class, 'update']);
 
 //gestion des regions
 
@@ -87,16 +89,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::post('ajout/projet', [ProjetController::class, 'store']);
-//     Route::post('details/projet/', [ProjetController::class, 'show']);
-//     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
-//     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
-//     Route::post('details/projet/', [ProjetController::class, 'details']);
-//     Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
-//     Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
-// });  
 
 
 

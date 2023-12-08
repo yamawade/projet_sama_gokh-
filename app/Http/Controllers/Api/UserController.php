@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\User;
 use App\Models\Commune;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LogUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -53,4 +55,25 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function update(UpdateUserRequest $request, User $user){
+        try {
+            $user->nom = $request->nom;
+            $user->prenom = $request->prenom;
+            $user->date_naiss = $request->date_naiss;
+            $user->email = $request->email;
+            $user->lieu_residence = $request->lieu_residence;
+
+            $user->save();
+            return response()->json([
+                'status_code' =>200,
+                'status_message' => 'l/utilisateur a été modifié',
+                'data'=>$user
+            ]);
+    
+           } catch (Exception $e) {
+             
+             return response()->json($e);
+           }
+          }
 }
