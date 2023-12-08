@@ -37,23 +37,23 @@ class ProjetController extends Controller
             $mairie = Auth::guard('mairie')->user();
             //$mairie = auth()->guard('mairie')->user();
             //dd($mairie);
-            $projet->nom = $request->nom_projet;
-            $projet->description = $request->description_projet;
-            $projet->date_projet = $request->date_projet;
-            $projet->date_limite_vote = $request->date_limite_vote;
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('images', 'public');
-                $projet->image = $path;
-            }
-            if ($mairie) {
-                $projet->mairie_id = $mairie->id;
-                $projet->user_id = null;
-            } else if ($user) {
-                $projet->user_id = $user->id;
-                $projet->mairie_id = null;
-            } else {
-                abort('403');
-            }
+            // $projet->nom = $request->nom_projet;
+            // $projet->description = $request->description_projet;
+            // $projet->date_projet = $request->date_projet;
+            // $projet->date_limite_vote = $request->date_limite_vote;
+            // if ($request->hasFile('image')) {
+            //     $path = $request->file('image')->store('images', 'public');
+            //     $projet->image = $path;
+            // }
+            // if ($mairie) {
+            //     $projet->mairie_id = $mairie->id;
+            //     $projet->user_id = null;
+            // } else if ($user) {
+            //     $projet->user_id = $user->id;
+            //     $projet->mairie_id = null;
+            // } else {
+            //     abort('403');
+            // }
             if($user = Auth::user()){
                 $maireTable = $user->getTable();
                 if ($maireTable === "mairies") {

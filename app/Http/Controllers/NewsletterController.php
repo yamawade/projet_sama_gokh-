@@ -32,7 +32,7 @@ class NewsletterController extends Controller
     {
         try {
             $newsletter = new Newsletter();
-            dd($newsletter);
+            // dd($newsletter);
             $newsletter->email = $request->email;
             if ($newsletter->save()) {
                 $newsletter->notify(new MailNewsletter());
