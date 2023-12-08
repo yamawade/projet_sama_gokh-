@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Region;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RegionSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class RegionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Region::factory(14)->create();
     }
 }

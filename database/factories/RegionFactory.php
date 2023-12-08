@@ -17,7 +17,8 @@ class RegionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nom' => $this->faker->unique()->randomElement(['Dakar', 'Diourbel', 'Fatick', 'Kaolack', 'Kolda', 'Saint-Louis', 'Kaffrine', 'Tambacounda', 'Matam', 'Ziguinchor', 'Kédougou', 'Thiès', 'Sédhiou', 'Louga'])
         ];
     }
+    
 }
