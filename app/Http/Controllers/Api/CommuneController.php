@@ -47,6 +47,7 @@ class CommuneController extends Controller
             $communes = new Commune();
 
             $communes->nom = $request->nom;
+            $communes->commune_desc = $request->commune_desc;
             $communes->region_id = $request->region_id;
 
 
