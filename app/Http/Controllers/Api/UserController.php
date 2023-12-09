@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RegisterUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LogUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Notifications\UserRegisterMail;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -24,7 +25,9 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->commune_id = 1;
             $user->password = $request->password;
-            $user->save();
+            if($user->save()){
+                $user->notify(new UserRegisterMail());
+            }
 
             return response()->json([
                 'status_code' => 200,

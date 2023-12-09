@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\User;
 use App\Models\Vote;
+use App\Models\Projet;
+use App\Notifications\VoteMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
-use App\Models\Projet;
-use Illuminate\Support\Facades\Auth;
 
 class VoteController extends Controller
 {
@@ -45,29 +47,31 @@ class VoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVoteRequest $request, $id)
+    public function store(StoreVoteRequest $request,$id)
     {
-
-
-        try{
+        try {
             $projet =Projet::findOrFail($id);
-        $user = Auth::user();
-        $avis = new Vote();
+            $user = Auth::user();
+            $avis = new Vote();
 
-        $avis->reponse = $request->reponse;
-       $avis->projet_id = $projet->id;
-       $avis->user_id = $user->id;
-        $avis->save();
-        return response()->json([
-            'status_code' => 200,
-            'status_message' => 'vote effectué avec succes',
-            'data' => $avis
-        ]);
+            $avis->reponse = $request->reponse;
+            $avis->projet_id = $projet->id;
+            $avis->user_id = $user->id;
+            if($avis->save()){
+                $userMail=User::find($user->id);
+                $userMail->notify(new VoteMail());
+            }
 
-        } catch(Exception $e){
+            return response()->json([
+                'status_code'=>200,
+                'status_message'=>'Le vote a été effectué',
+                'data'=>$avis
+            ]);
+        } catch (Exception $e) {
             return response()->json($e);
         }
-         }
+        
+    }
 
     /**
      * Display the specified resource.
