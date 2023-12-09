@@ -42,13 +42,21 @@ class UserController extends Controller
     {
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = auth()->user();
-            $token = $user->createToken('MA_CLE_SECRET')->plainTextToken;
+            if($user->etat_compte=='active'){
+                $token = $user->createToken('MA_CLE_SECRET')->plainTextToken;
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'Utilisateur Connecté',
                 'user' => $user,
                 'token' => $token
             ]);
+            }else{
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Ce compte n\'existe pas.'
+                ]);
+            }
+            
         } else {
 
             return response()->json([

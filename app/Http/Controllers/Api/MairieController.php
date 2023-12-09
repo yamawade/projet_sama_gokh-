@@ -48,7 +48,7 @@ class MairieController extends Controller
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
-            $mairie->commune_id = 1;
+            $mairie->commune_id = $request->commune_id;
             $mairie->image = $request->image;
             $mairie->save();
 
