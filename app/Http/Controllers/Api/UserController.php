@@ -23,7 +23,7 @@ class UserController extends Controller
             $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
-            $user->commune_id = 1;
+            $user->commune_id = 2;
             $user->password = $request->password;
             if($user->save()){
                 $user->notify(new UserRegisterMail());
@@ -58,6 +58,7 @@ class UserController extends Controller
             ]);
         }
     }
+<<<<<<< HEAD
 
     public function update(UpdateUserRequest $request, User $user){
         try {
@@ -66,6 +67,19 @@ class UserController extends Controller
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
             $user->lieu_residence = $request->lieu_residence;
+=======
+    public function logout(Request $request)
+    {
+       $user=auth()->user();
+       if($user->tokens()->delete()){
+        Session::invalidate();
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Utilisateur déconnecté'
+        ]);
+       }
+    }
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 
             $user->save();
             return response()->json([
@@ -73,10 +87,45 @@ class UserController extends Controller
                 'status_message' => 'l/utilisateur a été modifié',
                 'data'=>$user
             ]);
+<<<<<<< HEAD
     
            } catch (Exception $e) {
              
              return response()->json($e);
            }
           }
+=======
+        }
+
+    }
+    public function resetPassword(Request $request,User $user){
+        $user->password=$request->password;
+        $user->save();
+       //dd($user);
+        if($user){
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Votre mot de passe a été modifier',
+                'user' => $user,
+            ]);
+        }
+
+    }
+
+    public function desactiverCompte(Request $request,User $user){
+        $user=auth()->user();
+        if($user->etat_compte=='activer'){
+            $user->etat_compte='desactiver';
+            $user->save();
+            if($user->tokens()->delete()){
+                Session::invalidate();
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Votre compte a ete supprimer'
+                ]);
+            }
+        }
+        
+    }
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 }

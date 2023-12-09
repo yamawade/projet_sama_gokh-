@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Http\Controllers\Api\CommuneController;
 use App\Http\Controllers\Api\CommentaireController;
 
@@ -40,9 +41,10 @@ Route::get('regions',[RegionController::class,'index']);
 // Ajout d'une region |POST|PUT|PATCH
 Route::post('regions/create',[RegionController::class,'store']);
 =======
+=======
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 use App\Http\Controllers\Api\VoteController;
 use App\Http\Controllers\NewsletterController;
-use App\Models\Commune;
 use App\Models\Newsletter;
 use App\Http\Controllers\Api\CommentaireController;
 
@@ -71,7 +73,11 @@ Route::middleware('auth:sanctum')->group(function () {
     //Deconnexion Utilisateur
     Route::post('deconnexion',[UserController::class,'logout']);
     Route::post('deconnexionMairie',[MairieController::class,'logout']);
+
+    //Desactiver compte utilisateur
+    Route::post('desactiverCompte/{user}',[UserController::class,'desactiverCompte']);
 });
+<<<<<<< HEAD
 <<<<<<< HEAD
 //inscrire un nouveau mairie
 Route::post('/registerMairie',[MairieController::class,'registerMairie']);
@@ -87,6 +93,8 @@ Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 
 =======
 >>>>>>> 915345a4c0795383c92b54d3ecb15b3912847bc0
+=======
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 
 //Verification email
 Route::post('verifMail',[UserController::class,'verifMail']);
@@ -105,6 +113,7 @@ Route::post('regions/create', [RegionController::class, 'store']);
 Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 
 
+<<<<<<< HEAD
     //route pour ajout/suppression/modifier projet
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
@@ -118,6 +127,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+=======
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 //gestion des commune
 // Modification d'une commune 
 Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
