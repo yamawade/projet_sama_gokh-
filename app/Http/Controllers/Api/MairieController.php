@@ -49,14 +49,37 @@ class MairieController extends Controller
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
             $mairie->commune_id = $request->commune_id;
-            $mairie->image = $request->image;
-            $mairie->save();
+            //$mairie->image = $request->image;
+            if ($request->file('image')) {
+                $file = $request->file('image');
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('images'), $filename);
+    
+                // Ajouter le nom du fichier à l'objet $mairie
+                $mairie->image = $filename;
+            }
 
-            return response()->json([
-                'status_code' => 200,
-                'status_message' => 'Insertion reussi',
-                'data' => $mairie
-            ]);
+            $commune = Commune::find($request->commune_id);
+           
+            if ($commune->is_disponible=='indisponible') {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'La commune est déjà occupée par un maire.'
+                ]);
+            }else{
+                $commune->is_disponible = 'indisponible';
+                //mettre a jour la table commune
+                $commune->save();
+
+                $mairie->save();
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Insertion reussi',
+                    'data' => $mairie
+                ]);
+            }
+    
+            
         } catch (\Exception $e) {
             return response()->json($e);
         }
