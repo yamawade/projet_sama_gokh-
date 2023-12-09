@@ -55,7 +55,7 @@ class MairieController extends Controller
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('images'), $filename);
     
-                // Ajouter le nom du fichier à l'objet $mairie
+
                 $mairie->image = $filename;
             }
 

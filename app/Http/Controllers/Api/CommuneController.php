@@ -124,7 +124,7 @@ class CommuneController extends Controller
             $commune->save();
             return response()->json([
                 "status_code" => 200,
-                "status_messages" => "La region a ete Supprimer avec succes",
+                "status_messages" => "La commune a ete Supprimer avec succes",
                 "data" => $commune
             ]);
         } catch (Exception $e) {
