@@ -22,7 +22,7 @@ class UserController extends Controller
             $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
-            $user->commune_id = 2;
+            $user->commune_id = $request->commune_id;
             $user->password = $request->password;
             if($user->save()){
                 $user->notify(new UserRegisterMail());
@@ -42,7 +42,7 @@ class UserController extends Controller
     {
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = auth()->user();
-            if($user->etat_compte=='active'){
+            if($user->etat_compte=='activer'){
                 $token = $user->createToken('MA_CLE_SECRET')->plainTextToken;
             return response()->json([
                 'status_code' => 200,

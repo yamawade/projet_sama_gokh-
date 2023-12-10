@@ -16,10 +16,11 @@ class ProjetController extends Controller
     public function index()
     {
         try {
-       $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom', 'user:id,nom'])
+       $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom', 'user:id,nom,prenom,commune_id','user.commune:id,nom'])
        ->get(['id', 'nom', 'description', 'date_projet', 'date_limite_vote', 'image', 'etat_projet', 'mairie_id','user_id']);
        $infoprojets = $projets->map(function ($projet) {
-        $auteur = $projet->user ? $projet->user->nom : $projet->mairie->nom_maire;
+        $auteur = $projet->user ? $projet->user->nom.' ' .$projet->user->prenom : $projet->mairie->nom_maire;
+        $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
 
             return [
                 'Nom du Projet' => $projet->nom,
@@ -29,7 +30,7 @@ class ProjetController extends Controller
                 'Image' => $projet->image,
                 'État du Projet' => $projet->etat_projet,
                 'Auteur du Projet' => $auteur,
-                'Nom de la Commune' => $projet->mairie->commune->nom,
+                'Nom de la Commune' => $nomCommune,
             ];
         });
         //dd($infoprojets);
