@@ -71,11 +71,5 @@ Route::post('communes',[CommuneController::class,'index']);
 Route::post('communes/create',[CommuneController::class,'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    // dd(Auth::guard('mairie')->check());
     return $request->user();
 });
-// Route::middleware('maire')->group(
-//     function () {
-//         Route::post('ajout/projet', [ProjetController::class, 'store']);
-//     }
-// );
