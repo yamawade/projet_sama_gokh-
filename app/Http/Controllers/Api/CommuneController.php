@@ -17,12 +17,13 @@ class CommuneController extends Controller
      */
     public function index()
     {
+        $communes=Commune::where('statut','activer')->get();
         try {
 
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'la liste des communes a été recuperé',
-                'data' => Commune::all()
+                'data' => $communes
             ]);
         } catch (Exception $e) {
             return response($e)->json($e);

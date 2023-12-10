@@ -49,7 +49,7 @@ Route::post('verifMail',[UserController::class,'verifMail']);
 Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 //gestion des regions
 
-//Recuperer la liste des posts 
+//Recuperer la liste des regions
 
 Route::get('regions', [RegionController::class, 'index']);
 
@@ -66,10 +66,12 @@ Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
 Route::delete('communes/{commune}', [CommuneController::class, 'delete']);
 //listages des communes
-Route::post('communes',[CommuneController::class,'index']);
+Route::get('communes',[CommuneController::class,'index']);
 //ajout communes
 Route::post('communes/create',[CommuneController::class,'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+//liste des mairies
+Route::get('mairies', [MairieController::class, 'index']);
