@@ -19,7 +19,7 @@ class UserController extends Controller
             $user = new User();
             $user->nom = $request->nom;
             $user->prenom = $request->prenom;
-            $user->lieu_residence = $request->lieu_residence;
+            // $user->lieu_residence = $request->lieu_residence;
             $user->date_naiss = $request->date_naiss;
             $user->email = $request->email;
             $user->commune_id = $request->commune_id;
@@ -56,7 +56,7 @@ class UserController extends Controller
                     'status_message' => 'Ce compte n\'existe pas.'
                 ]);
             }
-            
+
         } else {
 
             return response()->json([
@@ -65,7 +65,7 @@ class UserController extends Controller
             ]);
         }
     }
-    public function logout(Request $request)
+    public function logout(Request $request,User $user)
     {
        $user=auth()->user();
        if($user->tokens()->delete()){
@@ -116,6 +116,6 @@ class UserController extends Controller
                 ]);
             }
         }
-        
+
     }
 }

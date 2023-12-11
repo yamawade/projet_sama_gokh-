@@ -27,7 +27,7 @@ class RegisterUser extends FormRequest
             'nom'=>'required',
             'prenom'=>'required',
             'date_naiss'=>'required',
-            'lieu_residence'=>'required',
+            // 'lieu_residence'=>'required',
             'email'=>'required|unique:users,email',
             'password'=>'required'
         ];
@@ -48,7 +48,7 @@ class RegisterUser extends FormRequest
             'nom.required'=>'Un nom doit etre fourni',
             'prenom.required'=>'Un prenom doit etre fourni',
             'date_naiss.required'=>'Une date de naissaince doit etre fourni',
-            'lieu_residence.required'=>'Un lieu de residence doit etre fourni',
+            // 'lieu_residence.required'=>'Un lieu de residence doit etre fourni',
             'email.required'=>'Un email doit etre fourni',
             'email.unique'=>'L\'adresse mail existe deja',
             'password.required'=>'Un mot de passe doit etre fourni',
