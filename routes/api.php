@@ -42,6 +42,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Desactiver compte utilisateur
     Route::post('desactiverCompte/{user}',[UserController::class,'desactiverCompte']);
+    //listes des projets
+    Route::get('projets', [ProjetController::class, 'index']);
+    //listes des projets par commune
+    Route::get('projetsParCommune/{communeId}', [ProjetController::class, 'projetsParCommune']);
 });
 
 //Verification email
@@ -49,7 +53,7 @@ Route::post('verifMail',[UserController::class,'verifMail']);
 Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 //gestion des regions
 
-//Recuperer la liste des posts 
+//Recuperer la liste des regions
 
 Route::get('regions', [RegionController::class, 'index']);
 
@@ -66,7 +70,7 @@ Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
 Route::delete('communes/{commune}', [CommuneController::class, 'delete']);
 //listages des communes
-Route::post('communes',[CommuneController::class,'index']);
+Route::get('communes',[CommuneController::class,'index']);
 //ajout communes
 Route::post('communes/create',[CommuneController::class,'store']);
 
@@ -74,8 +78,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     // dd(Auth::guard('mairie')->check());
     return $request->user();
 });
-// Route::middleware('maire')->group(
-//     function () {
-//         Route::post('ajout/projet', [ProjetController::class, 'store']);
-//     }
-// );
+//liste des mairies
+Route::get('mairies', [MairieController::class, 'index']);
