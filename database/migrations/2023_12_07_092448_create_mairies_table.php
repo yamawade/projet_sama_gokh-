@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('mairies', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_maire');
             $table->string('email');
             $table->string('password');
             $table->string('matricule')->unique();

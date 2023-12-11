@@ -25,7 +25,8 @@ class StoreCommuneRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'nom' => 'required'
+             'nom' => 'required|string',
+             'commune_desc' => 'required|string'
              
 
         ];
@@ -42,6 +43,7 @@ class StoreCommuneRequest extends FormRequest
      {
         return [
             'nom.required' => 'un nom doit etre fourni',
+            'commune_desc.required' => 'une description doit etre fourni',
         ];
      }
 
