@@ -142,9 +142,9 @@ class ProjetController extends Controller
      */
     public function edit(Projet $projet, UpdateProjetRequest $request)
     {
-        
+
         try {
-           
+
             if ($projet->user_id == auth()->user()->id) {
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
