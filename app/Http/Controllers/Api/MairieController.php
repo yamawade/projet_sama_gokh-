@@ -59,18 +59,18 @@ class MairieController extends Controller
             $mairie->login = $request->login;
             $mairie->commune_id = $request->commune_id;
             $mairie->nom_maire = $request->nom_maire;
-            //$mairie->image = $request->image;
-            if ($request->file('image')) {
-                $file = $request->file('image');
-                $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('images'), $filename);
-    
+            $mairie->image = $request->image;
+            // if ($request->file('image')) {
+            //     $file = $request->file('image');
+            //     $filename = date('YmdHi') . $file->getClientOriginalName();
+            //     $file->move(public_path('images'), $filename);
 
-                $mairie->image = $filename;
-            }
+
+                // $mairie->image = $filename;
+            // }
 
             $commune = Commune::find($request->commune_id);
-           
+
             if ($commune->is_disponible=='indisponible') {
                 return response()->json([
                     'status_code' => 403,
@@ -88,8 +88,8 @@ class MairieController extends Controller
                     'data' => $mairie
                 ]);
             }
-    
-            
+
+
         } catch (\Exception $e) {
             return response()->json($e);
         }

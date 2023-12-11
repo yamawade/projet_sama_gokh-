@@ -262,7 +262,7 @@ class ProjetController extends Controller
                 'commune' => [
                     'nom' => $commune->nom,
                     'description' => $commune->commune_desc,
-                    'mairie' => $mairie->nom_maire,
+                    'mairie' => $mairie,
                 ],
                 'projets' => $infoprojets,
             ]);
