@@ -12,7 +12,8 @@ class Commune extends Model
         'nom',
         'statut',
         'is_disponible',
-        'region_id'
+        'region_id',
+        'commune_desc',
     ];
     		
     public function region(){

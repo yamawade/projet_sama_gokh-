@@ -20,7 +20,16 @@ class MairieController extends Controller
      */
     public function index()
     {
-        //
+        try {
+
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'la liste des mairie a été recuperé',
+                'data' => Mairie::all()
+            ]);
+        } catch (Exception $e) {
+            return response($e)->json($e);
+        }
     }
 
     /**
@@ -48,15 +57,39 @@ class MairieController extends Controller
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
-            $mairie->commune_id = 1;
-            $mairie->image = $request->image;
-            $mairie->save();
+            $mairie->commune_id = $request->commune_id;
+            $mairie->nom_maire = $request->nom_maire;
+            //$mairie->image = $request->image;
+            if ($request->file('image')) {
+                $file = $request->file('image');
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('images'), $filename);
+    
 
-            return response()->json([
-                'status_code' => 200,
-                'status_message' => 'Insertion reussi',
-                'data' => $mairie
-            ]);
+                $mairie->image = $filename;
+            }
+
+            $commune = Commune::find($request->commune_id);
+           
+            if ($commune->is_disponible=='indisponible') {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'La commune est déjà occupée par un maire.'
+                ]);
+            }else{
+                $commune->is_disponible = 'indisponible';
+                //mettre a jour la table commune
+                $commune->save();
+
+                $mairie->save();
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Insertion reussi',
+                    'data' => $mairie
+                ]);
+            }
+    
+            
         } catch (\Exception $e) {
             return response()->json($e);
         }

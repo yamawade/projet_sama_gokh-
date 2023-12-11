@@ -17,12 +17,13 @@ class CommuneController extends Controller
      */
     public function index()
     {
+        $communes=Commune::where('statut','activer')->get();
         try {
 
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'la liste des communes a été recuperé',
-                'data' => Commune::all()
+                'data' => $communes
             ]);
         } catch (Exception $e) {
             return response($e)->json($e);
@@ -47,6 +48,7 @@ class CommuneController extends Controller
             $communes = new Commune();
 
             $communes->nom = $request->nom;
+            $communes->commune_desc = $request->commune_desc;
             $communes->region_id = $request->region_id;
 
 
@@ -123,7 +125,7 @@ class CommuneController extends Controller
             $commune->save();
             return response()->json([
                 "status_code" => 200,
-                "status_messages" => "La region a ete Supprimer avec succes",
+                "status_messages" => "La commune a ete Supprimer avec succes",
                 "data" => $commune
             ]);
         } catch (Exception $e) {

@@ -15,6 +15,33 @@ class ProjetController extends Controller
      */
     public function index()
     {
+        try {
+       $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom', 'user:id,nom,prenom,commune_id','user.commune:id,nom'])
+       ->get(['id', 'nom', 'description', 'date_projet', 'date_limite_vote', 'image', 'etat_projet', 'mairie_id','user_id']);
+       $infoprojets = $projets->map(function ($projet) {
+        $auteur = $projet->user ? $projet->user->nom.' ' .$projet->user->prenom : $projet->mairie->nom_maire;
+        $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
+
+            return [
+                'Nom du Projet' => $projet->nom,
+                'Description' => $projet->description,
+                'Date du Projet' => $projet->date_projet,
+                'Date Limite de Vote' => $projet->date_limite_vote,
+                'Image' => $projet->image,
+                'État du Projet' => $projet->etat_projet,
+                'Auteur du Projet' => $auteur,
+                'Nom de la Commune' => $nomCommune,
+            ];
+        });
+        //dd($infoprojets);
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Liste de tous les projets',
+            'data' => $infoprojets
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
     }
 
     /**
@@ -69,9 +96,17 @@ class ProjetController extends Controller
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
                 $projet->date_limite_vote = $request->date_limite_vote;
-                if ($request->hasFile('image')) {
-                    $path = $request->file('image')->store('images', 'public');
-                    $projet->image = $path;
+                // if ($request->hasFile('image')) {
+                //     $path = $request->file('image')->store('images', 'public');
+                //     $projet->image = $path;
+                // }
+                if ($request->file('image')) {
+                    $file = $request->file('image');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+        
+    
+                    $projet->image = $filename;
                 }
 
                 $projet->mairie_id = $maireid;
@@ -134,14 +169,22 @@ class ProjetController extends Controller
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
                 $projet->date_limite_vote = $request->date_limite_vote;
-                if ($request->hasFile('image')) {
-                    $path = $request->file('image')->store('images', 'public');
-                    $projet->image = $path;
+                // if ($request->hasFile('image')) {
+                //     $path = $request->file('image')->store('images', 'public');
+                //     $projet->image = $path;
+                // }
+                if ($request->file('image')) {
+                    $file = $request->file('image');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+        
+    
+                    $projet->image = $filename;
                 }
                 if ($projet->save()) {
                     return response()->json([
                         'status_code' => 200,
-                        'status_message' => 'Projet successfully update',
+                        'status_message' => 'Projet modifier avec succes',
                         'data' => $projet
                     ]);
                 } else {
@@ -160,7 +203,7 @@ class ProjetController extends Controller
                 if ($projet->save()) {
                     return response()->json([
                         'status_code' => 200,
-                        'status_message' => 'Projet successfully update',
+                        'status_message' => 'Projet modifier avec succes',
                         'data' => $projet
                     ]);
                 } else {
@@ -199,4 +242,43 @@ class ProjetController extends Controller
             $projet->status = 'deleted';
         }
     }
+
+    public function projetsParCommune($communeId)
+{
+    try {
+        $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom', 'user:id,nom,prenom,commune_id','user.commune:id,nom'])
+            ->whereHas('mairie.commune', function ($query) use ($communeId) {
+                $query->where('id', $communeId);
+            })
+            ->orWhereHas('user.commune', function ($query) use ($communeId) {
+                $query->where('id', $communeId);
+            })
+            ->get(['id', 'nom', 'description', 'date_projet', 'date_limite_vote', 'image', 'etat_projet', 'mairie_id','user_id']);
+
+        $infoprojets = $projets->map(function ($projet) {
+            $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
+            $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
+
+            return [
+                'Nom du Projet' => $projet->nom,
+                'Description' => $projet->description,
+                'Date du Projet' => $projet->date_projet,
+                'Date Limite de Vote' => $projet->date_limite_vote,
+                'Image' => $projet->image,
+                'État du Projet' => $projet->etat_projet,
+                'Auteur du Projet' => $auteur,
+                'Nom de la Commune' => $nomCommune,
+            ];
+        });
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Liste de projets pour la commune donnée',
+            'data' => $infoprojets
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
 }
