@@ -32,7 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
     Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
-    //recuperer la liste des votes
     Route::get('votes', [VoteController::class,'index']);
     //inscrire un vote
     Route::post('votes/create/{projet}', [VoteController::class, 'store']);
@@ -73,7 +72,6 @@ Route::get('communes',[CommuneController::class,'index']);
 Route::post('communes/create',[CommuneController::class,'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    // dd(Auth::guard('mairie')->check());
     return $request->user();
 });
 //liste des mairies

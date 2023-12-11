@@ -46,7 +46,7 @@ class CommentaireController extends Controller
                 'status_message'=>'Le commentaire a ete ajouté',
                 'data'=>$comment
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e);
         }
         
@@ -75,15 +75,10 @@ class CommentaireController extends Controller
     {
         try {
             $commentaire=Commentaire::findOrFail($id);
-            // $projet=Projet::findOrFail($id);
-            // $user = auth()->user();
             $commentaire->description=$request->description;
-            // $commentaire->projet_id=$request->$projet_id;
-            // $commentaire->user_id=$user->id;
             if($commentaire->user_id==auth()->user()->id){
                 $commentaire->save();
             }else{
-
                 return response()->json([
                     'status_code'=>422,
                     'status_message'=>'Vous n\'etes pas l\'auteur de ce commentaire'
@@ -94,7 +89,7 @@ class CommentaireController extends Controller
                 'status_message'=>'Le commentaire a ete modifié',
                 'data'=>$commentaire
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e);
         }
     }
@@ -122,7 +117,7 @@ class CommentaireController extends Controller
                 'status_message'=>'Le commentaire a ete supprimé',
                 'data'=>$commentaire
             ]);
-           }catch (Execption $e) {
+           }catch (\Execption $e) {
                 return response()->json($e);
            }
     }

@@ -50,7 +50,7 @@ class RegisterUser extends FormRequest
             'date_naiss.required'=>'Une date de naissaince doit etre fourni',
             'lieu_residence.required'=>'Un lieu de residence doit etre fourni',
             'email.required'=>'Un email doit etre fourni',
-            'email.unique'=>'L\'adresse mail existe deja',
+            'email.unique'=>'L\'adresse email existe deja',
             'password.required'=>'Un mot de passe doit etre fourni',
         ];
     }

@@ -27,7 +27,7 @@ class MairieController extends Controller
                 'status_message' => 'la liste des mairie a été recuperé',
                 'data' => Mairie::all()
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response($e)->json($e);
         }
     }
@@ -52,7 +52,6 @@ class MairieController extends Controller
     {
         try {
             $mairie = new Mairie();
-           // $commune=Commune::findOrFail($id);
             $mairie->email = $request->email;
             $mairie->password = $request->password;
             $mairie->matricule = $request->matricule;
@@ -122,7 +121,6 @@ class MairieController extends Controller
     public function logout(Request $request)
     {
        $user=auth()->user();
-    //    dd($user);
        if($user->tokens()->delete()){
         Session::invalidate();
         return response()->json([

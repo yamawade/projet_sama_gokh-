@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use OpenApi\Annotations as OA;
 use App\Models\User;
 use App\Models\Commune;
 use Illuminate\Http\Request;
@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+   
+
     public function register(RegisterUser $request)
     {
         try {
@@ -92,7 +94,6 @@ class UserController extends Controller
     public function resetPassword(Request $request,User $user){
         $user->password=$request->password;
         $user->save();
-       //dd($user);
         if($user){
             return response()->json([
                 'status_code' => 200,
