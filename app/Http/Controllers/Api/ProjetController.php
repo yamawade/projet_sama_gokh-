@@ -33,7 +33,6 @@ class ProjetController extends Controller
                 'Nom de la Commune' => $nomCommune,
             ];
         });
-        //dd($infoprojets);
         return response()->json([
             'status_code' => 200,
             'status_message' => 'Liste de tous les projets',
@@ -60,17 +59,16 @@ class ProjetController extends Controller
         try {
             $projet = new Projet();
             $user = Auth::user();
-            //dd($user);
             $mairie = Auth::guard('mairie')->user();
-            //$mairie = auth()->guard('mairie')->user();
-            //dd($mairie);
             $projet->nom = $request->nom_projet;
             $projet->description = $request->description_projet;
             $projet->date_projet = $request->date_projet;
             $projet->date_limite_vote = $request->date_limite_vote;
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('images', 'public');
-                $projet->image = $path;
+            if ($request->file('image')) {
+                $file = $request->file('image');
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('images'), $filename);
+                $projet->image = $filename;
             }
             if ($mairie) {
                 $projet->mairie_id = $mairie->id;
@@ -89,38 +87,22 @@ class ProjetController extends Controller
                 } elseif ($maireTable === "users") {
                     $userid = $user->id;
                     $maireid = null;
-                    //dd($userid);
                 }
 
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
                 $projet->date_limite_vote = $request->date_limite_vote;
-                // if ($request->hasFile('image')) {
-                //     $path = $request->file('image')->store('images', 'public');
-                //     $projet->image = $path;
-                // }
                 if ($request->file('image')) {
                     $file = $request->file('image');
                     $filename = date('YmdHi') . $file->getClientOriginalName();
                     $file->move(public_path('images'), $filename);
-        
-    
                     $projet->image = $filename;
                 }
 
                 $projet->mairie_id = $maireid;
                 $projet->user_id = $userid;
             }
-
-            // } else if ($user) {
-            //     $projet->user_id = $user->id;
-            //     // dd('ooo');
-            //     $projet->mairie_id = 1;
-            // } else {
-
-            //     abort('403');
-            // }
 
             if ($projet->save()) {
                 return response()->json([
@@ -132,7 +114,6 @@ class ProjetController extends Controller
                 dd('error');
             }
 
-            // dd($user);
 
 
         } catch (\Exception $e) {
@@ -161,24 +142,18 @@ class ProjetController extends Controller
      */
     public function edit(Projet $projet, UpdateProjetRequest $request)
     {
-        dd('ok');
+        
         try {
-            dd('leye');
+           
             if ($projet->user_id == auth()->user()->id) {
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
                 $projet->date_limite_vote = $request->date_limite_vote;
-                // if ($request->hasFile('image')) {
-                //     $path = $request->file('image')->store('images', 'public');
-                //     $projet->image = $path;
-                // }
                 if ($request->file('image')) {
                     $file = $request->file('image');
                     $filename = date('YmdHi') . $file->getClientOriginalName();
                     $file->move(public_path('images'), $filename);
-        
-    
                     $projet->image = $filename;
                 }
                 if ($projet->save()) {
@@ -190,15 +165,22 @@ class ProjetController extends Controller
                 } else {
                     dd('error');
                 }
+            }else{
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'etes pas l\'auteur de ce projet.'
+                ]);
             }
             if ($projet->mairie_id == Auth::guard('mairie')->user()->id) {
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
                 $projet->date_limite_vote = $request->date_limite_vote;
-                if ($request->hasFile('image')) {
-                    $path = $request->file('image')->store('images', 'public');
-                    $projet->image = $path;
+                if ($request->file('image')) {
+                    $file = $request->file('image');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+                    $projet->image = $filename;
                 }
                 if ($projet->save()) {
                     return response()->json([
@@ -209,12 +191,12 @@ class ProjetController extends Controller
                 } else {
                     dd('error');
                 }
+            }else{
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'etes pas l\'auteur de ce projet.'
+                ]);
             }
-
-
-
-
-            // dd($user);
 
 
         } catch (\Exception $e) {
@@ -246,7 +228,7 @@ class ProjetController extends Controller
     public function projetsParCommune($communeId)
 {
     try {
-        $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom', 'user:id,nom,prenom,commune_id','user.commune:id,nom'])
+        $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom,commune_desc', 'user:id,nom,prenom,commune_id','user.commune:id,nom,commune_desc'])
             ->whereHas('mairie.commune', function ($query) use ($communeId) {
                 $query->where('id', $communeId);
             })
@@ -258,6 +240,7 @@ class ProjetController extends Controller
         $infoprojets = $projets->map(function ($projet) {
             $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
             $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
+            $descCommune = $projet->user ? $projet->user->commune->commune_desc : $projet->mairie->commune->commune_desc;
 
             return [
                 'Nom du Projet' => $projet->nom,
@@ -268,6 +251,7 @@ class ProjetController extends Controller
                 'État du Projet' => $projet->etat_projet,
                 'Auteur du Projet' => $auteur,
                 'Nom de la Commune' => $nomCommune,
+                'Description de la Commune' => $descCommune,
             ];
         });
 
