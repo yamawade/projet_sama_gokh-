@@ -122,7 +122,6 @@ class MairieController extends Controller
     public function logout(Request $request)
     {
        $user=auth()->user();
-    //    dd($user);
        if($user->tokens()->delete()){
         Session::invalidate();
         return response()->json([

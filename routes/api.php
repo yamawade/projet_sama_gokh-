@@ -75,7 +75,6 @@ Route::get('communes',[CommuneController::class,'index']);
 Route::post('communes/create',[CommuneController::class,'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    // dd(Auth::guard('mairie')->check());
     return $request->user();
 });
 //liste des mairies
