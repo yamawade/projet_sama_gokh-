@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\Mairie;
 use App\Models\Commune;
 use Illuminate\Http\Request;

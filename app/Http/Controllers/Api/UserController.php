@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\User;
 use App\Models\Commune;
 use Illuminate\Http\Request;
@@ -65,6 +66,16 @@ class UserController extends Controller
             ]);
         }
     }
+<<<<<<< HEAD
+
+    public function update(UpdateUserRequest $request, User $user){
+        try {
+            $user->nom = $request->nom;
+            $user->prenom = $request->prenom;
+            $user->date_naiss = $request->date_naiss;
+            $user->email = $request->email;
+            $user->lieu_residence = $request->lieu_residence;
+=======
     public function logout(Request $request)
     {
        $user=auth()->user();
@@ -76,16 +87,22 @@ class UserController extends Controller
         ]);
        }
     }
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 
-    public function verifMail(Request $request){
-        $user=User::where('email',$request->email)->first();
-       // dd($user);
-        if($user){
+            $user->save();
             return response()->json([
-                'status_code' => 200,
-                'status_message' => 'Utilisateur trouvé',
-                'user' => $user,
+                'status_code' =>200,
+                'status_message' => 'l/utilisateur a été modifié',
+                'data'=>$user
             ]);
+<<<<<<< HEAD
+    
+           } catch (Exception $e) {
+             
+             return response()->json($e);
+           }
+          }
+=======
         }
 
     }
@@ -118,4 +135,5 @@ class UserController extends Controller
         }
         
     }
+>>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 }

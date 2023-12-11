@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
 
-
 class VoteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    
+        public function index()
     {
         try{
 
@@ -34,6 +34,7 @@ class VoteController extends Controller
 
 
     }
+    
 
     /**
      * Show the form for creating a new resource.

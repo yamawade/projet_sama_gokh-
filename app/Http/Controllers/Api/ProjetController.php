@@ -68,9 +68,13 @@ class ProjetController extends Controller
             $projet->description = $request->description_projet;
             $projet->date_projet = $request->date_projet;
             $projet->date_limite_vote = $request->date_limite_vote;
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('images', 'public');
-                $projet->image = $path;
+            if ($request->file('image')) {
+                $file = $request->file('image');
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('images'), $filename);
+    
+
+                $projet->image = $filename;
             }
             if ($mairie) {
                 $projet->mairie_id = $mairie->id;
@@ -89,7 +93,7 @@ class ProjetController extends Controller
                 } elseif ($maireTable === "users") {
                     $userid = $user->id;
                     $maireid = null;
-                    //dd($userid);
+                    dd($userid);
                 }
 
                 $projet->nom = $request->nom_projet;
@@ -161,9 +165,9 @@ class ProjetController extends Controller
      */
     public function edit(Projet $projet, UpdateProjetRequest $request)
     {
-        dd('ok');
+        // dd('ok');
         try {
-            dd('leye');
+            // dd('leye');
             if ($projet->user_id == auth()->user()->id) {
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
@@ -190,15 +194,24 @@ class ProjetController extends Controller
                 } else {
                     dd('error');
                 }
+            }else{
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'etes pas l\'auteur de ce projet.'
+                ]);
             }
             if ($projet->mairie_id == Auth::guard('mairie')->user()->id) {
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
                 $projet->date_projet = $request->date_projet;
                 $projet->date_limite_vote = $request->date_limite_vote;
-                if ($request->hasFile('image')) {
-                    $path = $request->file('image')->store('images', 'public');
-                    $projet->image = $path;
+                if ($request->file('image')) {
+                    $file = $request->file('image');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+        
+    
+                    $projet->image = $filename;
                 }
                 if ($projet->save()) {
                     return response()->json([
@@ -209,6 +222,11 @@ class ProjetController extends Controller
                 } else {
                     dd('error');
                 }
+            }else{
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'etes pas l\'auteur de ce projet.'
+                ]);
             }
 
 
