@@ -246,13 +246,13 @@ class ProjetController extends Controller
                 $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
 
                 return [
-                    'Nom du Projet' => $projet->nom,
+                    'Nom' => $projet->nom,
                     'Description' => $projet->description,
-                    'Date du Projet' => $projet->date_projet,
-                    'Date Limite de Vote' => $projet->date_limite_vote,
+                    'Date' => $projet->date_projet,
+                    'DateLimiteVote' => $projet->date_limite_vote,
                     'Image' => $projet->image,
-                    'État du Projet' => $projet->etat_projet,
-                    'Auteur du Projet' => $auteur,
+                    'ÉtatProjet' => $projet->etat_projet,
+                    'Auteur' => $auteur,
                 ];
             });
 
