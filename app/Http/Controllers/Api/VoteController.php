@@ -52,7 +52,6 @@ class VoteController extends Controller
             $projet =Projet::findOrFail($id);
             $user = Auth::user();
             $avis = new Vote();
-
             $avis->reponse = $request->reponse;
             $avis->projet_id = $projet->id;
             $avis->user_id = $user->id;

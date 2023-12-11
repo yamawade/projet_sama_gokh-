@@ -17,7 +17,7 @@ class CommuneController extends Controller
      */
     public function index()
     {
-        $communes=Commune::where('statut','activer')->get();
+        $communes = Commune::where('statut', 'activer')->get();
         try {
 
             return response()->json([
@@ -88,16 +88,8 @@ class CommuneController extends Controller
     {
         //
         try {
-            // $region=new Region();
-
             $commune->nom = $request->nom;
-            // $commune->statut=$request->statut;
-            // $commune->is_disponible=$request->is_disponible;
-            // $commune->region_id=$request->$region->id;
-            // dd($commune);
             $commune->update();
-
-
             return response()->json([
                 "status_code" => 200,
                 "status_messages" => "La commune a ete Modifier",
@@ -118,7 +110,6 @@ class CommuneController extends Controller
     }
     public function delete(Commune $commune)
     {
-        //
         try {
 
             $commune->statut = "desactiver";
