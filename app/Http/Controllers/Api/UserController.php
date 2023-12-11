@@ -104,7 +104,14 @@ class UserController extends Controller
     }
 
     public function desactiverCompte(Request $request,User $user){
-        $user=auth()->user();
+        //$user=auth()->user();
+        $authenticatedUser = auth()->user();
+        if (!$authenticatedUser || $authenticatedUser->id !== $user->id) {
+            return response()->json([
+                'status_code' => 403,
+                'status_message' => 'Vous n\'êtes pas autorisé à supprimer ce compte'
+            ]);
+        }
         if($user->etat_compte=='activer'){
             $user->etat_compte='desactiver';
             $user->save();
