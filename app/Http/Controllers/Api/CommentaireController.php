@@ -77,11 +77,7 @@ class CommentaireController extends Controller
     {
         try {
             $commentaire=Commentaire::findOrFail($id);
-            // $projet=Projet::findOrFail($id);
-            // $user = auth()->user();
             $commentaire->description=$request->description;
-            // $commentaire->projet_id=$request->$projet_id;
-            // $commentaire->user_id=$user->id;
             if($commentaire->user_id==auth()->user()->id){
                 $commentaire->save();
             }else{
