@@ -35,6 +35,7 @@ class CommuneController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**

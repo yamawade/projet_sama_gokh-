@@ -10,9 +10,11 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MairieController;
 use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use App\Http\Controllers\Api\CommuneController;
+
+use App\Http\Controllers\Api\VoteController;
+use App\Http\Controllers\NewsletterController;
+use App\Models\Newsletter;
+
 use App\Http\Controllers\Api\CommentaireController;
 
 //recuperer la liste des votes
@@ -40,16 +42,10 @@ Route::put('/update/user/{user}', [UserController::class, 'update']);
 Route::get('regions',[RegionController::class,'index']);
 // Ajout d'une region |POST|PUT|PATCH
 Route::post('regions/create',[RegionController::class,'store']);
-=======
-=======
->>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
-use App\Http\Controllers\Api\VoteController;
-use App\Http\Controllers\NewsletterController;
-use App\Models\Newsletter;
-use App\Http\Controllers\Api\CommentaireController;
+
+
 
 //inscrire un nouveau user
->>>>>>> 915345a4c0795383c92b54d3ecb15b3912847bc0
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('newsletter/mail', [NewsletterController::class, 'store']);
@@ -66,10 +62,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
     Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
+
     //recuperer la liste des votes
     Route::get('votes', [VoteController::class,'index']);
     //inscrire un vote
     Route::post('votes/create/{projet}', [VoteController::class, 'store']);
+
     //Deconnexion Utilisateur
     Route::post('deconnexion',[UserController::class,'logout']);
     Route::post('deconnexionMairie',[MairieController::class,'logout']);
@@ -77,8 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //Desactiver compte utilisateur
     Route::post('desactiverCompte/{user}',[UserController::class,'desactiverCompte']);
 });
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 //inscrire un nouveau mairie
 Route::post('/registerMairie',[MairieController::class,'registerMairie']);
 Route::post('/loginMairie',[MairieController::class,'loginMairie']);
@@ -86,15 +83,12 @@ Route::post('/loginMairie',[MairieController::class,'loginMairie']);
 
 //Recuperer la liste des posts 
 Route::get('regions', [RegionController::class, 'index']);
+
 // Ajout d'une region |POST|PUT|PATCH
 Route::post('regions/create', [RegionController::class, 'store']);
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
 Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 
-=======
->>>>>>> 915345a4c0795383c92b54d3ecb15b3912847bc0
-=======
->>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 
 //Verification email
 Route::post('verifMail',[UserController::class,'verifMail']);
@@ -102,7 +96,6 @@ Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 //gestion des regions
 
 //Recuperer la liste des posts 
-
 Route::get('regions', [RegionController::class, 'index']);
 
 // Ajout d'une region |POST|PUT|PATCH
@@ -113,7 +106,6 @@ Route::post('regions/create', [RegionController::class, 'store']);
 Route::put('regions/edit/{region}', [RegionController::class, 'update']);
 
 
-<<<<<<< HEAD
     //route pour ajout/suppression/modifier projet
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
@@ -124,11 +116,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-
-
-
-=======
->>>>>>> b6c91f62d1ebdb4d2f4200399729ef209867fdcb
 //gestion des commune
 // Modification d'une commune 
 Route::put('communes/edit/{commune}', [CommuneController::class, 'update']);
