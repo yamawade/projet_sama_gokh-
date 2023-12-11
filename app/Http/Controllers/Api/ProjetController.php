@@ -228,7 +228,7 @@ class ProjetController extends Controller
     public function projetsParCommune($communeId)
 {
     try {
-        $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom', 'user:id,nom,prenom,commune_id','user.commune:id,nom'])
+        $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom,commune_desc', 'user:id,nom,prenom,commune_id','user.commune:id,nom,commune_desc'])
             ->whereHas('mairie.commune', function ($query) use ($communeId) {
                 $query->where('id', $communeId);
             })
@@ -240,6 +240,7 @@ class ProjetController extends Controller
         $infoprojets = $projets->map(function ($projet) {
             $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
             $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
+            $descCommune = $projet->user ? $projet->user->commune->commune_desc : $projet->mairie->commune->commune_desc;
 
             return [
                 'Nom du Projet' => $projet->nom,
@@ -250,6 +251,7 @@ class ProjetController extends Controller
                 'État du Projet' => $projet->etat_projet,
                 'Auteur du Projet' => $auteur,
                 'Nom de la Commune' => $nomCommune,
+                'Description de la Commune' => $descCommune,
             ];
         });
 
