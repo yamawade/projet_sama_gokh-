@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Projet;
+use App\Models\Commune;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreProjetRequest;
@@ -225,9 +226,52 @@ class ProjetController extends Controller
         }
     }
 
-    public function projetsParCommune($communeId)
+//     public function projetsParCommune($communeId)
+// {
+//     try {
+//         $commune=Commune::findorFail($communeId);
+//         $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom,commune_desc', 'user:id,nom,prenom,commune_id','user.commune:id,nom,commune_desc'])
+//             ->whereHas('mairie.commune', function ($query) use ($communeId) {
+//                 $query->where('id', $communeId);
+//             })
+//             ->orWhereHas('user.commune', function ($query) use ($communeId) {
+//                 $query->where('id', $communeId);
+//             })
+//             ->get(['id', 'nom', 'description', 'date_projet', 'date_limite_vote', 'image', 'etat_projet', 'mairie_id','user_id']);
+
+//         $infoprojets = $projets->map(function ($projet) {
+//             $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
+//             $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
+//             $descCommune = $projet->user ? $projet->user->commune->commune_desc : $projet->mairie->commune->commune_desc;
+
+//             return [
+//                 'Nom du Projet' => $projet->nom,
+//                 'Description' => $projet->description,
+//                 'Date du Projet' => $projet->date_projet,
+//                 'Date Limite de Vote' => $projet->date_limite_vote,
+//                 'Image' => $projet->image,
+//                 'État du Projet' => $projet->etat_projet,
+//                 'Auteur du Projet' => $auteur,
+//                 'Nom de la Commune' => $nomCommune,
+//                 'Description de la Commune' => $descCommune,
+//             ];
+//         });
+
+//         return response()->json([
+//             'status_code' => 200,
+//             'status_message' => 'Liste de projets pour la commune donnée',
+//             'data' => $infoprojets
+//         ]);
+//     } catch (\Exception $e) {
+//         return response()->json(['error' => $e->getMessage()], 500);
+//     }
+// }
+
+public function projetsParCommune($communeId)
 {
     try {
+        $commune = Commune::findOrFail($communeId);
+
         $projets = Projet::with(['mairie:id,nom_maire,commune_id', 'mairie.commune:id,nom,commune_desc', 'user:id,nom,prenom,commune_id','user.commune:id,nom,commune_desc'])
             ->whereHas('mairie.commune', function ($query) use ($communeId) {
                 $query->where('id', $communeId);
@@ -239,8 +283,6 @@ class ProjetController extends Controller
 
         $infoprojets = $projets->map(function ($projet) {
             $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
-            $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
-            $descCommune = $projet->user ? $projet->user->commune->commune_desc : $projet->mairie->commune->commune_desc;
 
             return [
                 'Nom du Projet' => $projet->nom,
@@ -250,19 +292,20 @@ class ProjetController extends Controller
                 'Image' => $projet->image,
                 'État du Projet' => $projet->etat_projet,
                 'Auteur du Projet' => $auteur,
-                'Nom de la Commune' => $nomCommune,
-                'Description de la Commune' => $descCommune,
             ];
         });
 
         return response()->json([
             'status_code' => 200,
             'status_message' => 'Liste de projets pour la commune donnée',
-            'data' => $infoprojets
+            'commune' => [
+                'Nom de la Commune' => $commune->nom,
+                'Description de la Commune' => $commune->commune_desc,
+            ],
+            'projets' => $infoprojets,
         ]);
     } catch (\Exception $e) {
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
-
 }
