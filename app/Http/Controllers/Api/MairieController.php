@@ -58,6 +58,7 @@ class MairieController extends Controller
             $mairie->matricule = $request->matricule;
             $mairie->login = $request->login;
             $mairie->commune_id = $request->commune_id;
+            $mairie->nom_maire = $request->nom_maire;
             //$mairie->image = $request->image;
             if ($request->file('image')) {
                 $file = $request->file('image');

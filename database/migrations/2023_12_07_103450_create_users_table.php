@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role',['habitant','admin'])->default('habitant');
+            $table->enum('etat_compte',['activer','desactiver'])->default('activer');
             $table->foreignIdFor(Commune::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->rememberToken();
             $table->timestamps();

@@ -42,6 +42,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Desactiver compte utilisateur
     Route::post('desactiverCompte/{user}',[UserController::class,'desactiverCompte']);
+    //listes des projets
+    Route::get('projets', [ProjetController::class, 'index']);
+    //listes des projets par commune
+    Route::get('projetsParCommune/{communeId}', [ProjetController::class, 'projetsParCommune']);
 });
 
 //Verification email

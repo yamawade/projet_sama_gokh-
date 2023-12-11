@@ -28,6 +28,7 @@ class RegisterMairie extends FormRequest
             'password'=>'required',
             'matricule'=>'required',
             'image'=>'required|image',
+            'nom_maire'=>'required|string',
         ];
     }
 
@@ -47,6 +48,7 @@ class RegisterMairie extends FormRequest
             'email.unique'=>'L\'adresse mail existe deja',
             'password.required'=>'Un mot de passe doit etre fourni',
             'image.required'=>'Un image doit etre fourni',
+            'nom.required'=>'Un nom doit etre fourni',
         ];
     }
 }
