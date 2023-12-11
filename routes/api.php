@@ -11,8 +11,6 @@ use App\Http\Controllers\Api\ProjetController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\VoteController;
 use App\Http\Controllers\NewsletterController;
-use App\Models\Commune;
-use App\Models\Newsletter;
 use App\Http\Controllers\Api\CommentaireController;
 
 //inscrire un nouveau user
