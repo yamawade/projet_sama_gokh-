@@ -67,9 +67,23 @@ class UserController extends Controller
             ]);
         }
     }
+    public function logout(Request $request)
+    {
+       $user=auth()->user();
+       if($user->tokens()->delete()){
+        Session::invalidate();
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Utilisateur déconnecté'
+        ]);
+       }
+    }
+
+
 
     public function update(UpdateUserRequest $request, User $user){
         try {
+            
             $user->nom = $request->nom;
             $user->prenom = $request->prenom;
             $user->date_naiss = $request->date_naiss;
@@ -77,10 +91,12 @@ class UserController extends Controller
             $user->lieu_residence = $request->lieu_residence;
 
             $user->save();
+            
             return response()->json([
                 'status_code' =>200,
                 'status_message' => 'l/utilisateur a été modifié',
                 'data'=>$user
+
             ]);
     
            } catch (Exception $e) {
@@ -88,4 +104,53 @@ class UserController extends Controller
              return response()->json($e);
            }
           }
+        
+
+    public function verifMail(Request $request){
+        $user=User::where('email',$request->email)->first();
+       // dd($user);
+        if($user){
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Utilisateur trouvé',
+                'user' => $user,
+            ]);
+        }
+
+    }
+    public function resetPassword(Request $request,User $user){
+        $user->password=$request->password;
+        $user->save();
+       //dd($user);
+        if($user){
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Votre mot de passe a été modifier',
+                'user' => $user,
+            ]);
+        }
+
+    }
+
+    public function desactiverCompte(Request $request,User $user){
+        //$user=auth()->user();
+        $authenticatedUser = auth()->user();
+        if (!$authenticatedUser || $authenticatedUser->id !== $user->id) {
+            return response()->json([
+                'status_code' => 403,
+                'status_message' => 'Vous n\'êtes pas autorisé à supprimer ce compte'
+            ]);
+        }
+        if($user->etat_compte=='activer'){
+            $user->etat_compte='desactiver';
+            $user->save();
+            if($user->tokens()->delete()){
+                Session::invalidate();
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Votre compte a ete supprimer'
+                ]);
+            }
+        } 
+    }
 }

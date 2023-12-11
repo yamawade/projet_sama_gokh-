@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'prenom'=>'required',
             'date_naiss'=>'required',
             'email'=>'required',
-            'lieu_residence'=>'required'
+            'lieu_residence'=>'required',
 
         ];
     }
@@ -49,11 +49,11 @@ class UpdateUserRequest extends FormRequest
     {
         return [
 
-            'nom.required'=>'Le nom a été modifier avec succes',
-            'prenom.required'=>'le prenom a été modifier avec succes',
-            'date_naiss.required' =>'la date de naissnace a été modifier avec succes',
-            'email.required' => 'le email a été modifier avc succes',
-            'lieu_residence.required' => 'le lieu de residence a été modifier avec succes'
+            'nom.required'=>'Le nom doit etre fourni',
+            'prenom.required'=>'le prenom doit etre fourni',
+            'date_naiss.required' =>'la date de naissnace doit etre fourni',
+            'email.required' => 'le email doit etre fourni',
+            'lieu_residence.required' => 'le lieu de residence doit etre fourni',
         ];
     }
 }

@@ -20,10 +20,6 @@ use App\Models\Newsletter;
 // //inscrire un vote
 // Route::post('votes/create', [VoteController::class, 'store']); 
 
-// //recuperer la liste des votes
-// Route::get('votes', [VoteController::class,'index']);
-// //inscrire un vote
-// Route::post('votes/create', [VoteController::class, 'store']);
 //listages des communes
 Route::post('communes',[CommuneController::class,'index']);
 //ajout communes
