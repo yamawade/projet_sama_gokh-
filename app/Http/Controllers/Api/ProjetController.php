@@ -299,8 +299,8 @@ public function projetsParCommune($communeId)
             'status_code' => 200,
             'status_message' => 'Liste de projets pour la commune donnée',
             'commune' => [
-                'Nom de la Commune' => $commune->nom,
-                'Description de la Commune' => $commune->commune_desc,
+                'nom' => $commune->nom,
+                'description' => $commune->commune_desc,
             ],
             'projets' => $infoprojets,
         ]);
