@@ -23,15 +23,17 @@ Route::get('commentaires/{projet_id}',[CommentaireController::class,'show']);
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
 Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 Route::post('deconnexion/{user}',[UserController::class,'logout']);
-Route::post('ajout/projet', [ProjetController::class, 'store']);
+
 Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
 Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('ajout/projet', [ProjetController::class, 'store']);
+
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
-    Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
     //recuperer la liste des votes
     Route::get('votes', [VoteController::class,'index']);
+    Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
     //inscrire un vote
     Route::post('votes/create/{projet}', [VoteController::class, 'store']);
     //Deconnexion Utilisateur

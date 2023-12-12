@@ -60,7 +60,7 @@ class ProjetController extends Controller
     public function store(StoreProjetRequest $request)
     {
         // dd($request);
-        try {
+        // try {
             $projet = new Projet();
 
             $user = Auth::user();
@@ -100,14 +100,17 @@ class ProjetController extends Controller
                     'data' => $projet
                 ]);
             } else {
-                dd('error');
+                return response()->json([
+                    'status_code' => 400,
+                    'status_message' => 'Insertion echoue',
+                ]);
             }
 
 
 
-        } catch (\Exception $e) {
-            return response()->json($e);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json($e);
+        // }
     }
 
     /**
