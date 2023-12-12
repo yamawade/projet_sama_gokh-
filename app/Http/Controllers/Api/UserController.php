@@ -44,11 +44,14 @@ class UserController extends Controller
             $user = auth()->user();
             if($user->etat_compte=='activer'){
                 $token = $user->createToken('MA_CLE_SECRET')->plainTextToken;
+                $commune=Commune::where('id',$user->commune_id)->First();
+                $nom=$commune->nom;
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'Utilisateur Connecté',
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'nom_commune'=>$nom
             ]);
             }else{
                 return response()->json([
