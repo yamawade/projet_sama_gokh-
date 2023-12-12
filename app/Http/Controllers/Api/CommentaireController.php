@@ -64,8 +64,8 @@ class CommentaireController extends Controller
             $commentaire_info = array(
                 'id_commentaire' => $commentaire->id,
                 'description' => $commentaire->description,
-                'date' => $commentaire->created_at,
                 'nom_utilisateur' => $commentaire->user->prenom.' '.$commentaire->user->nom,
+                'date' => $commentaire->created_at
 
             );
             array_push($tableau_commentaires, $commentaire_info);

@@ -59,38 +59,20 @@ class ProjetController extends Controller
      */
     public function store(StoreProjetRequest $request)
     {
+        // dd($request);
         try {
             $projet = new Projet();
+
             $user = Auth::user();
-            $mairie = Auth::guard('mairie')->user();
-            $projet->nom = $request->nom_projet;
-            $projet->description = $request->description_projet;
-            $projet->date_projet = $request->date_projet;
-            $projet->date_limite_vote = $request->date_limite_vote;
-            if ($request->file('image')) {
-                $file = $request->file('image');
-                $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('images'), $filename);
-                $projet->image = $filename;
-            }
-            if ($mairie) {
-                $projet->mairie_id = $mairie->id;
-                $projet->user_id = null;
-            } else if ($user) {
-                $projet->user_id = $user->id;
-                $projet->mairie_id = null;
-            } else {
-                abort('403');
-            }
-            if($user = Auth::user()){
-                $maireTable = $user->getTable();
-                if ($maireTable === "mairies") {
-                    $maireid = $user->id;
-                    $userid = null;
-                } elseif ($maireTable === "users") {
-                    $userid = $user->id;
-                    $maireid = null;
-                }
+
+                // $maireTable = $user->getTable();
+                // if ($maireTable === "mairies") {
+                //     $maireid = $user->id;
+                //     $userid = null;
+                // } elseif ($maireTable === "users") {
+                //     $userid = $user->id;
+                //     $maireid = null;
+                // }
 
                 $projet->nom = $request->nom_projet;
                 $projet->description = $request->description_projet;
@@ -102,10 +84,14 @@ class ProjetController extends Controller
                     $file->move(public_path('images'), $filename);
                     $projet->image = $filename;
                 }
+                if(auth()->user()->role=="habitant"){
+                    $projet->user_id = auth()->user()->id;
+                }else{
+                    $projet->maire_id = auth()->user()->id;
+                }
 
-                $projet->mairie_id = $maireid;
-                $projet->user_id = $userid;
-            }
+
+
 
             if ($projet->save()) {
                 return response()->json([
