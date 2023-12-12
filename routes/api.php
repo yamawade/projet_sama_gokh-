@@ -19,14 +19,14 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('newsletter/mail', [NewsletterController::class, 'store']);
 
 //inscrire un nouveau mairie
+Route::get('commentaires/{projet_id}',[CommentaireController::class,'show']);
 Route::post('/registerMairie', [MairieController::class, 'registerMairie']);
 Route::post('/loginMairie', [MairieController::class, 'loginMairie']);
 Route::post('deconnexion/{user}',[UserController::class,'logout']);
+Route::post('ajout/projet', [ProjetController::class, 'store']);
+Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
+Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('ajout/projet', [ProjetController::class, 'store']);
-    Route::post('details/projet/{projet}', [ProjetController::class, 'show']);
-    Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
-    Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
     Route::post('commentaires/create/{projet}',[CommentaireController::class,'store']);
     Route::post('commentaires/edit/{id}',[CommentaireController::class,'update']);
     Route::delete('commentaires/{id}',[CommentaireController::class,'destroy']);
@@ -41,8 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     //Desactiver compte utilisateur
     Route::post('desactiverCompte/{user}',[UserController::class,'desactiverCompte']);
     //listes des projets
-    Route::get('projets', [ProjetController::class, 'index']);
 });
+Route::get('details/projet/{projet}', [ProjetController::class, 'show']);
+Route::get('projets', [ProjetController::class, 'index']);
 //listes des projets par commune
 Route::get('projetsParCommune/{communeId}', [ProjetController::class, 'projetsParCommune']);
 

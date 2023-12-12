@@ -25,14 +25,15 @@ class ProjetController extends Controller
         $nomCommune = $projet->user ? $projet->user->commune->nom : $projet->mairie->commune->nom;
 
             return [
-                'Nom du Projet' => $projet->nom,
-                'Description' => $projet->description,
-                'Date du Projet' => $projet->date_projet,
-                'Date Limite de Vote' => $projet->date_limite_vote,
-                'Image' => $projet->image,
-                'État du Projet' => $projet->etat_projet,
-                'Auteur du Projet' => $auteur,
-                'Nom de la Commune' => $nomCommune,
+                'id' => $projet->id,
+                'nom' => $projet->nom,
+                'description' => $projet->description,
+                'date' => $projet->date_projet,
+                'dateLimiteVote' => $projet->date_limite_vote,
+                'image' => $projet->image,
+                'etatProjet' => $projet->etat_projet,
+                'auteurProjet' => $auteur,
+                'nomCommune' => $nomCommune,
             ];
         });
         return response()->json([
@@ -126,13 +127,14 @@ class ProjetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Projet $projet)
+    public function show($projet)
     {
+        $projet_details=Projet::FindorFail($projet);
         try {
             return response()->json([
                 'status_code' => 200,
                 'status_message' => 'Details Projet',
-                'data' => $projet
+                'data' => $projet_details
             ]);
         } catch (\Exception $e) {
             return response()->json($e);
@@ -246,13 +248,14 @@ class ProjetController extends Controller
                 $auteur = $projet->user ? $projet->user->nom . ' ' . $projet->user->prenom : $projet->mairie->nom_maire;
 
                 return [
-                    'Nom' => $projet->nom,
-                    'Description' => $projet->description,
-                    'Date' => $projet->date_projet,
-                    'DateLimiteVote' => $projet->date_limite_vote,
-                    'Image' => $projet->image,
-                    'ÉtatProjet' => $projet->etat_projet,
-                    'Auteur' => $auteur,
+                    'id' => $projet->id,
+                    'nom' => $projet->nom,
+                    'nescription' => $projet->description,
+                    'date' => $projet->date_projet,
+                    'dateLimiteVote' => $projet->date_limite_vote,
+                    'image' => $projet->image,
+                    'etatProjet' => $projet->etat_projet,
+                    'auteur' => $auteur,
                 ];
             });
 

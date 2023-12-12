@@ -28,7 +28,7 @@ class StoreProjetRequest extends FormRequest
             'description_projet' => 'required',
             'date_projet' => 'required|date',
             'date_limite_vote' => 'required|date',
-            'image' => 'required|image',
+            // 'image' => 'required|image',
         ];
     }
 
@@ -50,8 +50,8 @@ class StoreProjetRequest extends FormRequest
             'description_projet.required' => 'Une description du projet doit etre fourni',
             'date_projet.required' => 'Une date de projet doit etre fourni',
             'date_limite_vote.required' => 'Une date limite de vote doit etre fourni',
-            'image.required' => 'Une image doit etre fourni',
-            'image.image' => 'Une image doit etre une image',
+            // 'image.required' => 'Une image doit etre fourni',
+            // 'image.image' => 'Une image doit etre une image',
         ];
     }
 }

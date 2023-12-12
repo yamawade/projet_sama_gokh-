@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Projet;
 use App\Models\Commentaire;
 use App\Http\Controllers\Controller;
@@ -49,15 +50,33 @@ class CommentaireController extends Controller
         } catch (Exception $e) {
             return response()->json($e);
         }
-        
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Commentaire $commentaire)
+    public function show($projet_id)
     {
-        //
+        $commentaires = Commentaire::where('projet_id', $projet_id)->get();
+        $tableau_commentaires = array();
+        foreach ($commentaires as $commentaire) {
+            $commentaire_info = array(
+                'id_commentaire' => $commentaire->id,
+                'description' => $commentaire->description,
+                'date' => $commentaire->created_at,
+                'nom_utilisateur' => $commentaire->user->prenom.' '.$commentaire->user->nom,
+
+            );
+            array_push($tableau_commentaires, $commentaire_info);
+        }
+        // dd(count($tableau_commentaires));
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'commentaires Projet',
+            'commentaire' => $tableau_commentaires
+
+        ]);
     }
 
     /**
@@ -105,14 +124,14 @@ class CommentaireController extends Controller
             if($commentaire->user_id==auth()->user()->id){
                 $commentaire->delete();
             }else{
-    
+
                 return response()->json([
                     'status_code'=>422,
                     'status_message'=>'Vous n\'etes pas l\'auteur de ce commentaire'
                 ]);
             }
-            
-    
+
+
             return response()->json([
                 'status_code'=>200,
                 'status_message'=>'Le commentaire a ete supprimé',
