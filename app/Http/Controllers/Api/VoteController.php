@@ -59,17 +59,18 @@ class VoteController extends Controller
             if($avis->save()){
                 $userMail=User::find($user->id);
                 $userMail->notify(new VoteMail());
+                return response()->json([
+                    'status_code'=>200,
+                    'status_message'=>'Le vote a été effectué',
+                    'data'=>$avis
+                ]);
             }
 
-            return response()->json([
-                'status_code'=>200,
-                'status_message'=>'Le vote a été effectué',
-                'data'=>$avis
-            ]);
+
         } catch (Exception $e) {
             return response()->json($e);
         }
-        
+
     }
 
     /**
