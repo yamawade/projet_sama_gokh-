@@ -118,7 +118,7 @@ class ProjetController extends Controller
      */
     public function show($projet)
     {
-        $projet_details=Projet::FindorFail($projet);
+        $projet_details = Projet::with('user:id,commune_id','user.commune:id,nom', 'mairie:id,commune_id','mairie.commune:id,nom')->findOrFail($projet);
         try {
             return response()->json([
                 'status_code' => 200,
@@ -128,6 +128,17 @@ class ProjetController extends Controller
         } catch (\Exception $e) {
             return response()->json($e);
         }
+        // $projet_details=Projet::FindorFail($projet);
+
+        // try {
+        //     return response()->json([
+        //         'status_code' => 200,
+        //         'status_message' => 'Details Projet',
+        //         'data' => $projet_details
+        //     ]);
+        // } catch (\Exception $e) {
+        //     return response()->json($e);
+        // }
     }
 
     /**

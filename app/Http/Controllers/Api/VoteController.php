@@ -51,20 +51,32 @@ class VoteController extends Controller
         try {
             $projet =Projet::findOrFail($id);
             $user = Auth::user();
-            $avis = new Vote();
+            // $vote = Vote::where('user_id', $user->id)
+            // ->where('projet_id', $projet->id)
+            // ->first();
 
-            $avis->reponse = $request->reponse;
-            $avis->projet_id = $projet->id;
-            $avis->user_id = $user->id;
-            if($avis->save()){
-                $userMail=User::find($user->id);
-                $userMail->notify(new VoteMail());
-                return response()->json([
-                    'status_code'=>200,
-                    'status_message'=>'Le vote a été effectué',
-                    'data'=>$avis
-                ]);
-            }
+            // if(isset($vote)){
+            //     return response()->json([
+            //         'status_code'=>600,
+            //         'status_message'=>'Vous avez deja voté'
+            //     ]);
+            // }else{
+                $avis = new Vote();
+
+                $avis->reponse = $request->reponse;
+                $avis->projet_id = $projet->id;
+                $avis->user_id = $user->id;
+                if($avis->save()){
+                    $userMail=User::find($user->id);
+                    $userMail->notify(new VoteMail());
+                    return response()->json([
+                        'status_code'=>200,
+                        'status_message'=>'Le vote a été effectué',
+                        'data'=>$avis
+                    ]);
+                }
+            // }
+
 
 
         } catch (Exception $e) {
@@ -76,9 +88,14 @@ class VoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vote $vote)
+    public function show($projet)
     {
-        //
+        $vote=Vote::where('projet_id',$projet)->get();
+        return response()->json([
+            'status_code'=>200,
+            'status_message'=>'Les votes du projet',
+            'data'=>$vote
+        ]);
     }
 
     /**

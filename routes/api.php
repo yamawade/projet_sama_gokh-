@@ -26,6 +26,7 @@ Route::post('deconnexion/{user}',[UserController::class,'logout']);
 
 Route::post('modifier/projet/{projet}', [ProjetController::class, 'edit']);
 Route::post('supprimer/projet/{projet}', [ProjetController::class, 'destroy']);
+Route::get('votes/show/{projet}', [VoteController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('ajout/projet', [ProjetController::class, 'store']);
 
